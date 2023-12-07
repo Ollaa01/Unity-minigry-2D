@@ -122,12 +122,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHealth: 0
-  maxHealth: 500
+  maxHealth: 200
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
-  explossionEffect: {fileID: 0}
-  explosionSFX: {fileID: 0}
+  deathSound: {fileID: 0}
 --- !u!61 &2943004082002970644
 BoxCollider2D:
   m_ObjectHideFlags: 0

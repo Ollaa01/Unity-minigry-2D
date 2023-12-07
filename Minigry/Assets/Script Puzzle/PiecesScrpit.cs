@@ -11,10 +11,16 @@ public class PiecesScrpit : MonoBehaviour
 
     private static int piecesInRightPosition = 0; 
     private static bool hasWon = false; 
+
+    public static bool CheckIfWon()
+    {
+        return hasWon;
+    }
     void Start()
     {
         RightPosition = transform.position;
-        transform.position = new Vector3(Random.Range(3f, 8f), Random.Range(-4f, 1f));
+        transform.position = new Vector3(Random.Range(2f, 10f), Random.Range(-5f, 5f));
+       
     }
 
     // Update is called once per frame
