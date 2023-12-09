@@ -30,6 +30,8 @@ public class M_Board : MonoBehaviour
 
     void Start()
     {
+        particleSystem.Stop();
+        excellentPanel.SetActive(false);
         noMoves.gameObject.SetActive(false);
         tiles = new M_Tile[rows.Max(row => row.Rtiles.Length), rows.Length];
 
@@ -54,15 +56,8 @@ public class M_Board : MonoBehaviour
     public Text noMoves;
     public void Update()
     {
-        //if (!Input.GetKeyDown(KeyCode.A)) return;
-
-        //foreach (var connectedTile in tiles[0, 0].GetConnectedTiles()) { connectedTile.icon.transform.DOScale(2f, TweenDuration).Play();}
         if (!HasPossibleMoves() && !isWaiting)
         {
-            //Debug.Log("Brak mo¿liwych ruchów. Oczekiwanie 5 sekund przed tasowaniem planszy...");
-            //Invoke("ShuffleBoard", 5f);
-            // ShuffleBoard();
-            //StartCoroutine(ShuffleAfterDelay());
             Debug.Log("Brak mo¿liwych ruchów. Oczekiwanie 5 sekund przed tasowaniem planszy...");
             noMoves.gameObject.SetActive(true);
             isWaiting = true;
@@ -79,7 +74,6 @@ public class M_Board : MonoBehaviour
 
     IEnumerator ShuffleAfterDelay()
     {
-        Debug.Log("Brak mo¿liwych ruchów. Oczekiwanie 5 sekund przed tasowaniem planszy...");
         yield return new WaitForSeconds(5f);
 
         ShuffleBoard();
@@ -94,20 +88,20 @@ public class M_Board : MonoBehaviour
             {
                 if (System.Array.IndexOf(_selection[0].Neighbours, tile) != -1)
                 {
-                    Debug.Log("add tile to list " + tile);
+                    //Debug.Log("add tile to list " + tile);
                     _selection.Add(tile);
                 }
                 else
                 {
                     // Jeœli klikniêty kafelek nie jest s¹siadem, zrestartuj zaznaczenie.
-                    Debug.Log("zrestartowalem");
+                   // Debug.Log("zrestartowalem");
                     _selection.Clear();
                     _selection.Add(tile);
                 }
             }
             else
             {
-                Debug.Log("add tile to list by else " + tile);
+                //Debug.Log("add tile to list by else " + tile);
                 _selection.Add(tile);
             } 
             //_selection.Add(tile); //przesuwaj na ca³ej planszy
@@ -118,16 +112,19 @@ public class M_Board : MonoBehaviour
         //Debug.Log("Select tiles at " + _selection[0].x + " " + _selection[0].y + " " + _selection[1].x + " " + _selection[1].y + " ");
 
         await Swap(_selection[0], _selection[1]);
+        //StartCoroutine(Swap2(_selection[0], _selection[1]));
 
-        if(CanPop())
+        if (CanPop())
         {
             Pop();
         }
         else
         {
             await Swap(_selection[0], _selection[1]);
+            //StartCoroutine(Swap2(_selection[0], _selection[1]));
         }
-
+        //Debug.Log("bleble " + consecutiveMatches);
+        //consecutiveMatches = 0;
         _selection.Clear();
     }
 
@@ -160,6 +157,46 @@ public class M_Board : MonoBehaviour
 
     }
 
+    public IEnumerator Swap2(M_Tile tile1, M_Tile tile2)
+    {
+        var icon1 = tile1.icon;
+        var icon2 = tile2.icon;
+
+        var icon1Transform = icon1.transform;
+        var icon2Transform = icon2.transform;
+
+        Vector3 startPos1 = icon1Transform.position;
+        Vector3 startPos2 = icon2Transform.position;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < TweenDuration)
+        {
+            icon1Transform.position = Vector3.Lerp(startPos1, startPos2, elapsedTime / TweenDuration);
+            icon2Transform.position = Vector3.Lerp(startPos2, startPos1, elapsedTime / TweenDuration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Upewnij siê, ¿e obiekty s¹ dok³adnie na swoich miejscach po zakoñczeniu animacji
+        icon1Transform.position = startPos2;
+        icon2Transform.position = startPos1;
+
+        // Przypisz ikony i rodziców na koniec animacji
+        icon1Transform.SetParent(tile2.transform, false); // false oznacza, ¿e nie zerujemy lokalnej transformacji
+        icon2Transform.SetParent(tile1.transform, false);
+
+        tile1.icon = icon2;
+        tile2.icon = icon1;
+
+        var tile1Item = tile1.Item;
+
+        tile1.Item = tile2.Item;
+        tile2.Item = tile1Item;
+    }
+
     private bool CanPop()
     {
         for (var y = 0; y < Height; y++)
@@ -169,11 +206,12 @@ public class M_Board : MonoBehaviour
                 if (tiles[x, y].GetConnectedTiles().Skip(1).Count() >= 2 ) { return true; }
             }
         }
-
+        consecutiveMatches = 0;
         return false;
 
     }
-
+    private int consecutiveMatches = 0;
+    private int comboCount = 0;
     private async void Pop()
     {
         for (var y = 0; y < Height; y++)
@@ -185,7 +223,10 @@ public class M_Board : MonoBehaviour
                 var connectedTiles = tile.GetConnectedTiles();
 
                 if (connectedTiles.Skip(1).Count() < 2) continue;
-                
+
+                comboCount += connectedTiles.Count; //
+                consecutiveMatches++; //
+                Debug.Log("ble " + consecutiveMatches);
                 var deflateSequence = DOTween.Sequence();
 
                 foreach (var connectedTile in connectedTiles)
@@ -194,6 +235,19 @@ public class M_Board : MonoBehaviour
                 }
 
                 _audioSource.PlayOneShot(collectSound);
+
+                if (comboCount >= 5)
+                {
+                    ShowExcellentWindow();
+                    M_Score.Instance.Score += 100;
+                }
+                if (consecutiveMatches >= 3)
+                {
+                    ShowExcellentWindow();
+                    Debug.Log("showed in if");
+                    M_Score.Instance.Score += 100;
+                    //consecutiveMatches = 0;
+                }
 
                 M_Score.Instance.Score += tile.Item.value * connectedTiles.Count;
 
@@ -214,6 +268,9 @@ public class M_Board : MonoBehaviour
 
                 x = 0;
                 y = 0;
+
+                comboCount = 0;
+                
             }
         }
     }
@@ -250,44 +307,9 @@ public class M_Board : MonoBehaviour
                 index++;
             }
         }
-        Debug.Log("Shuffled!");
+        //Debug.Log("Shuffled!");
         Pop();
     }
-
-    /*
-    //Match dla przesuwaj na ca³ej planszy
-    private bool HasPossibleMoves()
-    {
-        // SprawdŸ ka¿dy kafelek na planszy
-        for (int y = 0; y < Height; y++)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                M_Tile currentTile = tiles[x, y];
-
-                // SprawdŸ ka¿dego s¹siada
-                foreach (var neighbor in currentTile.Neighbours)
-                {
-                    // Zamieñ miejscami i sprawdŸ, czy to spowoduje utworzenie matcha
-                    SwapTiles(currentTile, neighbor);
-                    if (CanPop())
-                    {
-                        // Jeœli ruch spowoduje matcha, przywróæ oryginalne ustawienia i zwróæ true
-                        SwapTiles(currentTile, neighbor); // Przywróæ oryginalne ustawienia
-                        Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({neighbor.x}, {neighbor.y})");
-                        return true;
-                    }
-
-                    // Jeœli ruch nie spowoduje matcha, przywróæ oryginalne ustawienia
-                    SwapTiles(currentTile, neighbor);
-                }
-            }
-        }
-
-        // Jeœli ¿aden ruch nie spowoduje matcha, zwróæ false
-        return false;
-    } 
-    */
 
     private bool HasPossibleMoves()
     {
@@ -303,7 +325,7 @@ public class M_Board : MonoBehaviour
                     SwapTiles(currentTile, tiles[x + 1, y]);
                     if (CanPop())
                     {
-                        Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x + 1}, {y})");
+                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x + 1}, {y})");
                         SwapTiles(currentTile, tiles[x + 1, y]);
                         return true;
                     }
@@ -316,7 +338,7 @@ public class M_Board : MonoBehaviour
                     SwapTiles(currentTile, tiles[x, y + 1]);
                     if (CanPop())
                     {
-                        Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y + 1})");
+                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y + 1})");
                         SwapTiles(currentTile, tiles[x, y + 1]);
                         return true;
                     }
@@ -329,7 +351,7 @@ public class M_Board : MonoBehaviour
                     SwapTiles(currentTile, tiles[x - 1, y]);
                     if (CanPop())
                     {
-                        Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x - 1}, {y})");
+                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x - 1}, {y})");
                         SwapTiles(currentTile, tiles[x - 1, y]);
                         return true;
                     }
@@ -342,7 +364,7 @@ public class M_Board : MonoBehaviour
                     SwapTiles(currentTile, tiles[x, y - 1]);
                     if (CanPop())
                     {
-                        Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y - 1})");
+                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y - 1})");
                         SwapTiles(currentTile, tiles[x, y - 1]);
                         return true;
                     }
@@ -368,9 +390,27 @@ public class M_Board : MonoBehaviour
         M_Item tempItem = tile1.Item;
         tile1.Item = tile2.Item;
         tile2.Item = tempItem;
-    } 
+    }
 
+    public GameObject excellentPanel;
+    public new ParticleSystem particleSystem;
+    private void ShowExcellentWindow()
+    {
+        excellentPanel.SetActive(true);
+        particleSystem.Play();
+        Debug.Log("Particle system played");
+        // Mo¿esz dodaæ dodatkowe efekty wizualne lub dŸwiêkowe tutaj.
 
+        StartCoroutine(HideExcellentWindowAfterDelay());
+    }
+
+    private IEnumerator HideExcellentWindowAfterDelay()
+    {
+        yield return new WaitForSeconds(3.0f); // Ukryj okno po 2 sekundach (mo¿esz dostosowaæ czas).
+        Debug.Log("Stopping Particle System");
+        particleSystem.Stop();
+        excellentPanel.SetActive(false);
+    }
 
 
 

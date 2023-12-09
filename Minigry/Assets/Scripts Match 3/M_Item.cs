@@ -8,5 +8,5 @@ public class M_Item : ScriptableObject
     public int value;
 
     public Sprite sprite;
-
+    public int type;
 }

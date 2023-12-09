@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class S_GameOverManager : MonoBehaviour
 {
-    [SerializeField] GameObject gamePlay, gameOver;
+    [SerializeField] GameObject gamePlay, gameOver, gameWin;
 
     // Start is called before the first frame update
     void Start()
@@ -14,6 +14,8 @@ public class S_GameOverManager : MonoBehaviour
             gamePlay.SetActive(true);
         if (gameOver != null)
             gameOver.SetActive(false);
+        if (gameWin != null)
+            gameWin.SetActive(false);
     }
     public void GameOver()
     {
@@ -24,9 +26,18 @@ public class S_GameOverManager : MonoBehaviour
        // Time.timeScale = 0f;
     }
 
+    public void GameWin()
+    {
+        if (gamePlay != null)
+            gamePlay.SetActive(false);
+        if (gameWin != null)
+            gameWin.SetActive(true);
+        
+    }
+
     public void LoadScene(int index)
     {
-        SceneManager.LoadScene(index);
+        SceneManager.LoadScene(index); //tutaj skrypt do prze³adowania sceny :)
     }
     // Update is called once per frame
     void Update()
