@@ -10,7 +10,7 @@ public class SC_LineController : MonoBehaviour
     private LineRenderer lr;
     public List<Transform> points = new List<Transform>();
     public Transform lastPoints;
-    public List<Transform> targetPoints = new List<Transform>();
+    //public List<Transform> targetPoints = new List<Transform>();
     public SC_Paths[] allPaths;
     public SC_ClickPoint clickPoint;
     private bool isPatternCompleted = false;
@@ -18,6 +18,9 @@ public class SC_LineController : MonoBehaviour
     public GameObject winTextObject;
     public GameObject replayButton;
     public GameObject starsNames;
+    public GameObject moveButton;
+    public string moveToScene = null;
+    private int maxCount;
 
     void Start()
     {
@@ -25,6 +28,10 @@ public class SC_LineController : MonoBehaviour
         errorTextObject.SetActive(false);
         replayButton.SetActive(true);
         starsNames.SetActive(false);
+        moveButton.SetActive(false);
+        maxCount = MaxCountOfPaths(allPaths);
+        Debug.Log(maxCount);
+        Debug.Log(allPaths.Count());
     }
 
     private void Awake()
@@ -34,7 +41,7 @@ public class SC_LineController : MonoBehaviour
 
     private void makeLine(Transform finalPoint)
     {
-        if(lastPoints == null)
+        if (lastPoints == null)
         {
             lastPoints = finalPoint;
             points.Add(lastPoints);
@@ -47,7 +54,7 @@ public class SC_LineController : MonoBehaviour
             SetupLine();
             clickPoint.ChangePointColor(finalPoint);
         }
-        
+
     }
 
     private void SetupLine()
@@ -58,19 +65,6 @@ public class SC_LineController : MonoBehaviour
         {
             lr.SetPosition(i, points[i].position);
         }
-    }
-
-    private bool IsNextTarget(Transform clickedPoint)
-    {
-        if (targetPoints.Count == 0)
-            return false;  
-        return clickedPoint == targetPoints[0];
-    }
-
-    private void ResetPattern()
-    {
-        isPatternCompleted = false;
-        targetPoints.Clear();
     }
 
     void Update()
@@ -93,24 +87,25 @@ public class SC_LineController : MonoBehaviour
                     if (areEqual)
                     {
                         anyPathEqual = true;
-                        break; 
+                        break;
                     }
                 }
-                foreach (Transform point in allPaths[0].paths)
+                foreach (Transform point in allPaths[1].paths)
                 {
-                    Debug.Log("T " + point.name); 
+                    Debug.Log("T " + point.name);
                 }
                 foreach (Transform point in points)
                 {
-                    Debug.Log("P " + point.name); 
+                    Debug.Log("P " + point.name);
                 }
                 if (anyPathEqual)
                 {
                     isPatternCompleted = true;
                     winTextObject.SetActive(true);
                     starsNames.SetActive(true);
+                    moveButton.SetActive(true);
                 }
-                if (points.Count >= targetPoints.Count && anyPathEqual == false) 
+                if (points.Count >= maxCount && anyPathEqual == false)
                 {
                     isPatternCompleted = true;
                     errorTextObject.SetActive(true);
@@ -120,9 +115,31 @@ public class SC_LineController : MonoBehaviour
             }
         }
     }
+    public void MoveNext()
+    {
+        if (moveToScene != null)  SceneManager.LoadScene(moveToScene);
+    }
+
     public void Replay()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
+
+    public int MaxCountOfPaths (SC_Paths[] all)
+    {
+        int max = 0;
+
+        foreach (SC_Paths scPaths in all)
+        {
+            int count = scPaths.paths.Count;
+
+            if (count > max)
+            {
+                max = count;
+            }
+        }
+
+        return max;
+    }
 }
