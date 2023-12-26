@@ -27,7 +27,7 @@ public class P_TimeManager : MonoBehaviour
 
     void Update()
     {
-        if (PiecesScrpit.CheckIfWon())
+        if (P_PiecesScript.CheckIfWon())
         {
             gameWinText.gameObject.SetActive(true);
             return;
@@ -37,7 +37,7 @@ public class P_TimeManager : MonoBehaviour
             timer += Time.deltaTime;
 
             // SprawdŸ, czy up³ynê³o 30 sekund
-            if (timer >= gameTime && PiecesScrpit.CheckIfWon() == false)
+            if (timer >= gameTime && P_PiecesScript.CheckIfWon() == false)
             {
                 GameOver();
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class PiecesScrpit : MonoBehaviour
+public class P_PiecesScript : MonoBehaviour
 {
     private Vector3 RightPosition;
     public bool InRightPosition;

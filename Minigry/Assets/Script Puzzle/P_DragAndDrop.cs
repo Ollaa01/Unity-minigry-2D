@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class DragAndDrop : MonoBehaviour
+public class P_DragAndDrop : MonoBehaviour
 {
     public GameObject SelectedPiece;
     int OIL = 1;
@@ -20,10 +20,10 @@ public class DragAndDrop : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.transform.CompareTag("Puzzle")) 
             {
-                if (!hit.transform.GetComponent<PiecesScrpit>().InRightPosition)
+                if (!hit.transform.GetComponent<P_PiecesScript>().InRightPosition)
                 {
                     SelectedPiece = hit.transform.gameObject;
-                    SelectedPiece.GetComponent<PiecesScrpit>().Selected = true;
+                    SelectedPiece.GetComponent<P_PiecesScript>().Selected = true;
                     SelectedPiece.GetComponent<SortingGroup>().sortingOrder = OIL;
                     OIL++;
                 }
@@ -33,7 +33,7 @@ public class DragAndDrop : MonoBehaviour
         {
             if (SelectedPiece != null)
             {
-                SelectedPiece.GetComponent<PiecesScrpit>().Selected = false;
+                SelectedPiece.GetComponent<P_PiecesScript>().Selected = false;
                 SelectedPiece = null;
             }
         }

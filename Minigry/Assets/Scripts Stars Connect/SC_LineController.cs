@@ -41,6 +41,7 @@ public class SC_LineController : MonoBehaviour
 
     private void makeLine(Transform finalPoint)
     {
+
         if (lastPoints == null)
         {
             lastPoints = finalPoint;
@@ -49,11 +50,16 @@ public class SC_LineController : MonoBehaviour
         }
         else
         {
-            points.Add(finalPoint);
-            lr.enabled = true;
-            SetupLine();
-            clickPoint.ChangePointColor(finalPoint);
+            if (points[points.Count - 1].name != finalPoint.name)
+            {
+                points.Add(finalPoint);
+                lr.enabled = true;
+                SetupLine();
+                clickPoint.ChangePointColor(finalPoint);
+            }
+
         }
+
 
     }
 

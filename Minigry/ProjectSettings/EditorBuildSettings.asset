@@ -6,6 +6,33 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Introduction_CS.unity
+    guid: 8b97b050c3104254b8b3646d3488cc72
+  - enabled: 1
+    path: Assets/Scenes/Connect Stars 2.unity
+    guid: 2b15ab91633dab746be9d929ff245077
+  - enabled: 1
+    path: Assets/Scenes/Connect Stars.unity
+    guid: 1e1bb294fbbaedb4d890273564baf402
+  - enabled: 1
+    path: Assets/Scenes/Connect Stars 1.unity
+    guid: 6946126b2f154b54dbc64fc83e734201
+  - enabled: 1
+    path: Assets/Scenes/Introduction_M.unity
+    guid: b5fa7c15389e02a41815c07cd6590d03
+  - enabled: 1
+    path: Assets/Scenes/Match 3.unity
+    guid: 7d261dcee8a026547b6ee54d8f616d95
+  - enabled: 1
+    path: Assets/Scenes/Introduction_P.unity
+    guid: 3f5c89f8cc778a644a9bcc29d44c9572
+  - enabled: 1
     path: Assets/Scenes/Puzzle.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Introduction_SS.unity
+    guid: bb47c05e22e8b3e41a44b670d1159e23
+  - enabled: 1
+    path: Assets/Scenes/Space Shooter.unity
+    guid: 1e35f217852d90f4ca1734274a25f511
   m_configObjects: {}
