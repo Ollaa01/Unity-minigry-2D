@@ -31,7 +31,7 @@ public class M_Board : MonoBehaviour
     void Start()
     {
         particleSystem.Stop();
-        excellentPanel.SetActive(false);
+        //excellentPanel.SetActive(false);
         noMoves.gameObject.SetActive(false);
         tiles = new M_Tile[rows.Max(row => row.Rtiles.Length), rows.Length];
 
@@ -396,7 +396,7 @@ public class M_Board : MonoBehaviour
     public new ParticleSystem particleSystem;
     private void ShowExcellentWindow()
     {
-        excellentPanel.SetActive(true);
+        //excellentPanel.SetActive(true);
         particleSystem.Play();
         Debug.Log("Particle system played");
         // Mo¿esz dodaæ dodatkowe efekty wizualne lub dŸwiêkowe tutaj.
@@ -409,7 +409,7 @@ public class M_Board : MonoBehaviour
         yield return new WaitForSeconds(3.0f); // Ukryj okno po 2 sekundach (mo¿esz dostosowaæ czas).
         Debug.Log("Stopping Particle System");
         particleSystem.Stop();
-        excellentPanel.SetActive(false);
+        //excellentPanel.SetActive(false);
     }
 
 

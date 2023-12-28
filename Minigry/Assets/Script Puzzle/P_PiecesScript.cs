@@ -43,7 +43,8 @@ public class P_PiecesScript : MonoBehaviour
                     if (!hasWon)
                     {
                         hasWon = true;
-                        Debug.Log("You win"); 
+                        Debug.Log("You win");
+                        MG_MGStatus.Instance.GamePassed("PuzzlePlayed");
                     }
                 }
             }

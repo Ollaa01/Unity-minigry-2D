@@ -242,7 +242,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You lose! Try again!
+  m_Text: Przegrana!
 --- !u!222 &66572269
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -706,7 +706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: -89}
+  m_AnchoredPosition: {x: 15, y: 133}
   m_SizeDelta: {x: 636.73, y: 103.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &768113560
@@ -742,7 +742,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You win! '
+  m_Text: Wygrana!
 --- !u!222 &768113561
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -822,7 +822,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Replay
+  m_Text: Jeszcze raz!
 --- !u!222 &838464275
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1464,7 +1464,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Level
+  m_Text: Dalej
 --- !u!222 &1598679204
 CanvasRenderer:
   m_ObjectHideFlags: 0

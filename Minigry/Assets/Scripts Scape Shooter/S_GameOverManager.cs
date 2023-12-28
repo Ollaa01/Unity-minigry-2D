@@ -32,9 +32,14 @@ public class S_GameOverManager : MonoBehaviour
             gamePlay.SetActive(false);
         if (gameWin != null)
             gameWin.SetActive(true);
-        
+        MG_MGStatus.Instance.GamePassed("SSPlayed");
+
     }
 
+    public void Replay()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index); //tutaj skrypt do prze³adowania sceny :)

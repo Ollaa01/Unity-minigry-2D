@@ -20,8 +20,7 @@ public class M_Score : MonoBehaviour
         {
             if (_score == value) return;
             _score = value;
-            scoreText.text = "Score: " + _score;
-            // Dodaj warunek sprawdzaj¹cy, czy osi¹gniêto wymagany wynik
+            scoreText.text = "Wynik: " + _score;
             if (_score >= ScoreToBeat)
             {
                 GameWin();
@@ -29,15 +28,22 @@ public class M_Score : MonoBehaviour
         }
     }
     [SerializeField] private Text scoreText;
-    [SerializeField] private int ScoreToBeat = 1000; 
+    [SerializeField] private int ScoreToBeat = 1000;
+    [SerializeField] private Text scoreToBeatText;
     private void Awake() => Instance = this;
 
     public void Start()
     {
         gameWinText.gameObject.SetActive(false);
+        if (scoreToBeatText != null)
+        {
+            scoreToBeatText.text = "Wynik do pokonania: " + ScoreToBeat;
+            scoreToBeatText.gameObject.SetActive(true);
+        }
     }
     public void GameWin()
     {
         gameWinText.gameObject.SetActive(true);
+        MG_MGStatus.Instance.GamePassed("M3Played");
     }
 }

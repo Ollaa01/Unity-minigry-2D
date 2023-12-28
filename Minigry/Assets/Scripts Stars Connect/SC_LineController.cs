@@ -110,6 +110,7 @@ public class SC_LineController : MonoBehaviour
                     winTextObject.SetActive(true);
                     starsNames.SetActive(true);
                     moveButton.SetActive(true);
+                    MG_MGStatus.Instance.GamePassed("SCPlayed");
                 }
                 if (points.Count >= maxCount && anyPathEqual == false)
                 {

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class S_ScoreManager : MonoBehaviour
 {
-    [SerializeField] private Text scoreText, highScoreText;
+    [SerializeField] private Text scoreText, highScoreText, scoreToBeatText;
     [SerializeField] int scoreToBeat = 1000;
     public static S_ScoreManager Instance;
     private int currentScore = 0;
@@ -45,6 +45,8 @@ public class S_ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
             scoreText.text = currentScore.ToString();
+        if (scoreToBeatText != null)
+            scoreToBeatText.text = scoreToBeat.ToString();
         if (highScoreText != null)
             highScoreText.text = PlayerPrefs.GetInt(HIGHSCORE_KEY).ToString();
     }
