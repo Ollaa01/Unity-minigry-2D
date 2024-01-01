@@ -555,7 +555,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695805913}
-  - component: {fileID: 695805912}
   - component: {fileID: 695805911}
   - component: {fileID: 695805910}
   m_Layer: 0
@@ -674,19 +673,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &695805912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695805909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba6c42e38e4af5343adec2dd20cfa9e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useSharedMusic: 1
 --- !u!4 &695805913
 Transform:
   m_ObjectHideFlags: 0
@@ -850,7 +836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -659, y: 410}
+  m_AnchoredPosition: {x: -656, y: 390}
   m_SizeDelta: {x: 350, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &828862200

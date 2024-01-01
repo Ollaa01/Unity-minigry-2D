@@ -118,11 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2973276592189509070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de78af701b3cb44cba571c25fe96aee, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a003fcd513602b408f3ef225153d87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minHealth: 0
-  maxHealth: 25
+  maxHealth: 50
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}

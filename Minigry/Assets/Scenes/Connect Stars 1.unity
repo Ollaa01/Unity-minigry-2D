@@ -412,6 +412,7 @@ MonoBehaviour:
   clickPoint: {fileID: 1828452695}
   errorTextObject: {fileID: 66572267}
   winTextObject: {fileID: 768113558}
+  winParticleSystem: {fileID: 5679152367726286238, guid: 286b56d7df9145144837c640aa82d47c, type: 3}
   replayButton: {fileID: 1644954534}
   starsNames: {fileID: 1749908985}
   moveButton: {fileID: 1841921366}
@@ -606,6 +607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (9)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!4 &463915757 stripped
@@ -648,8 +653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135, y: -29}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: -294, y: -50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480273293
 MonoBehaviour:
@@ -673,10 +678,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -868,8 +873,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24, y: -9}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: 82, y: -12}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528578389
 MonoBehaviour:
@@ -893,10 +898,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -981,6 +986,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (8)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!4 &634142555 stripped
@@ -1036,11 +1045,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1900, y: 1080}
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1127,8 +1136,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 164, y: 199}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: 337, y: 397}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &757380288
 MonoBehaviour:
@@ -1152,10 +1161,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1317,10 +1326,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1364,7 +1373,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941214939}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2820e539f5cf731458c7f20f30accb92, type: 3}
   m_Name: 
@@ -1442,8 +1451,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941214939}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0102, y: -0.1314, z: 100}
-  m_LocalScale: {x: 20.205853, y: 10.674457, z: 1}
+  m_LocalPosition: {x: -0.004, y: -0.1172, z: 100}
+  m_LocalScale: {x: 21.086103, y: 10.645636, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1012018329}
@@ -1485,8 +1494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -78, y: 184}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: -160, y: 401}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &978291576
 MonoBehaviour:
@@ -1510,10 +1519,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1565,8 +1574,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -271, y: -114}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: -610, y: -238}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1003319203
 MonoBehaviour:
@@ -1590,10 +1599,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1777,6 +1786,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (4)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!4 &1272592004 stripped
@@ -1847,6 +1860,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (3)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!1001 &1475852232
@@ -1912,6 +1929,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (2)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!1 &1520590422
@@ -2033,6 +2054,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (6)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!1001 &1589987402
@@ -2098,6 +2123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (5)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!1 &1598679201
@@ -2160,10 +2189,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2257,7 +2286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620210235}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.13, y: 3.82, z: 0}
+  m_LocalPosition: {x: -8.64, y: 3.9, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2299,10 +2328,10 @@ RectTransform:
   m_Father: {fileID: 649885424}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345.00003, y: 209}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -161.6, y: -69}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1644954536
 MonoBehaviour:
@@ -2502,11 +2531,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1900, y: 1080}
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2597,8 +2626,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -110, y: 151}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: -237, y: 328}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1789877243
 MonoBehaviour:
@@ -2622,10 +2651,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2749,8 +2778,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 156, y: -188}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: 360, y: -424}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1829309523
 MonoBehaviour:
@@ -2774,10 +2803,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2830,10 +2859,10 @@ RectTransform:
   m_Father: {fileID: 649885424}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 345, y: -208}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -161.6, y: 67}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841921368
 MonoBehaviour:
@@ -3006,6 +3035,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ' Point (7)'
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
 --- !u!1 &1963774236
@@ -3043,8 +3076,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -152, y: 103}
-  m_SizeDelta: {x: 81.76, y: 23.48}
+  m_AnchoredPosition: {x: -321, y: 217}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963774238
 MonoBehaviour:
@@ -3068,10 +3101,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -3192,5 +3225,9 @@ PrefabInstance:
       propertyPath: clickedColor.r
       value: 0.8183756
       objectReference: {fileID: 0}
+    - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
+      propertyPath: clickEffectPrefab
+      value: 
+      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}

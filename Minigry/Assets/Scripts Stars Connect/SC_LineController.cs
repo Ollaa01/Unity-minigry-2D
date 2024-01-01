@@ -16,6 +16,7 @@ public class SC_LineController : MonoBehaviour
     private bool isPatternCompleted = false;
     public GameObject errorTextObject;
     public GameObject winTextObject;
+    public GameObject winParticleSystem;
     public GameObject replayButton;
     public GameObject starsNames;
     public GameObject moveButton;
@@ -32,6 +33,11 @@ public class SC_LineController : MonoBehaviour
         maxCount = MaxCountOfPaths(allPaths);
         Debug.Log(maxCount);
         Debug.Log(allPaths.Count());
+        // Dodaj sprawdzenie, czy winParticleSystem zosta³ przypisany
+        if (winParticleSystem == null)
+        {
+            Debug.LogError("ParticleSystem is not assigned to winParticleSystem in the inspector!");
+        }
     }
 
     private void Awake()
@@ -107,7 +113,9 @@ public class SC_LineController : MonoBehaviour
                 if (anyPathEqual)
                 {
                     isPatternCompleted = true;
-                    winTextObject.SetActive(true);
+                    WinConfetti();
+                    clickPoint.DeactivateClickEffect();
+                    //winTextObject.SetActive(true);
                     starsNames.SetActive(true);
                     moveButton.SetActive(true);
                     MG_MGStatus.Instance.GamePassed("SCPlayed");
@@ -148,5 +156,21 @@ public class SC_LineController : MonoBehaviour
         }
 
         return max;
+    }
+    private void WinConfetti()
+    {
+        if (winParticleSystem == null)
+            return;
+
+        // Ustaw pozycjê na œrodek ekranu
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 3f, 0f);
+        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+        GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
+
+
+        // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
+        explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        Destroy(explosion, 4f);
     }
 }

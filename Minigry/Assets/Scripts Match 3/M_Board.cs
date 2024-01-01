@@ -25,6 +25,7 @@ public class M_Board : MonoBehaviour
     private readonly List<M_Tile> _selection = new List<M_Tile>();
 
     private const float TweenDuration = 0.25f;
+    private bool isSwapping = false;
 
     public void Awake() => Instance = this;
 
@@ -81,6 +82,12 @@ public class M_Board : MonoBehaviour
 
     public async void Select(M_Tile tile)
     {
+        // SprawdŸ, czy trwa animacja zamiany kafelków
+        if (isSwapping)
+        {
+            // Ignoruj klikniêcie, jeœli animacja jest w trakcie
+            return;
+        }
         if (!_selection.Contains(tile)) 
         { 
              //Przesuwaj s¹siadów
@@ -111,7 +118,14 @@ public class M_Board : MonoBehaviour
 
         //Debug.Log("Select tiles at " + _selection[0].x + " " + _selection[0].y + " " + _selection[1].x + " " + _selection[1].y + " ");
 
-        await Swap(_selection[0], _selection[1]);
+        //await Swap(_selection[0], _selection[1]);
+        if (_selection.Count >= 2)
+        {
+            Debug.Log($"Wybrane kafelki: {_selection[0].x}, {_selection[0].y} i {_selection[1].x}, {_selection[1].y}");
+            isSwapping = true;
+            await Swap(_selection[0], _selection[1]);
+            isSwapping = false;
+        }
         //StartCoroutine(Swap2(_selection[0], _selection[1]));
 
         if (CanPop())
@@ -120,7 +134,9 @@ public class M_Board : MonoBehaviour
         }
         else
         {
+            isSwapping = true;
             await Swap(_selection[0], _selection[1]);
+            isSwapping = false;
             //StartCoroutine(Swap2(_selection[0], _selection[1]));
         }
         //Debug.Log("bleble " + consecutiveMatches);

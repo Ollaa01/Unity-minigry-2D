@@ -18,8 +18,9 @@ public class P_PiecesScript : MonoBehaviour
     }
     void Start()
     {
+        hasWon = false;
         RightPosition = transform.position;
-        transform.position = new Vector3(Random.Range(2f, 10f), Random.Range(-5f, 5f));
+        transform.position = new Vector3(Random.Range(2f, 13f), Random.Range(-5f, 5f));
        
     }
 

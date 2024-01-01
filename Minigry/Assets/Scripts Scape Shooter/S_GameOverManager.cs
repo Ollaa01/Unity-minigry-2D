@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class S_GameOverManager : MonoBehaviour
 {
-    [SerializeField] GameObject gamePlay, gameOver, gameWin;
+    [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem;
+    private bool isGameWin = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        isGameWin = false;
         if (gamePlay != null)
             gamePlay.SetActive(true);
         if (gameOver != null)
@@ -19,15 +21,20 @@ public class S_GameOverManager : MonoBehaviour
     }
     public void GameOver()
     {
+        if (isGameWin == true)
+            return;
         if (gamePlay != null)
             gamePlay.SetActive(false);
         if (gameOver != null)
             gameOver.SetActive(true);
-       // Time.timeScale = 0f;
+
+        // Time.timeScale = 0f;
     }
 
     public void GameWin()
     {
+        isGameWin = true;
+        WinConfetti();
         if (gamePlay != null)
             gamePlay.SetActive(false);
         if (gameWin != null)
@@ -48,5 +55,22 @@ public class S_GameOverManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void WinConfetti()
+    {
+        if (winParticleSystem == null)
+            return;
+
+        // Ustaw pozycjê na œrodek ekranu
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 3f, 0f);
+        Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+        GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
+
+
+        // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
+        explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        Destroy(explosion, 4f);
     }
 }

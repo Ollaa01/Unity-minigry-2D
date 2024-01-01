@@ -243,7 +243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220, y: -236}
+  m_AnchoredPosition: {x: 250, y: -148}
   m_SizeDelta: {x: 420, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &487088167
@@ -293,8 +293,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameWinText: {fileID: 1233198106}
+  winParticleSystem: {fileID: 5679152367726286238, guid: 286b56d7df9145144837c640aa82d47c, type: 3}
   scoreText: {fileID: 487088167}
-  ScoreToBeat: 1000
+  ScoreToBeat: 10
   scoreToBeatText: {fileID: 0}
 --- !u!222 &487088169
 CanvasRenderer:
@@ -5564,9 +5565,9 @@ RectTransform:
   m_Father: {fileID: 1233198105}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 796, y: -448}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 238, y: 64}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1041901502
@@ -5976,7 +5977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1127682962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6604,7 +6605,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220, y: -161}
+  m_AnchoredPosition: {x: 250, y: -73}
   m_SizeDelta: {x: 420, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1349957436
@@ -6654,6 +6655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameWinText: {fileID: 1233198106}
+  winParticleSystem: {fileID: 5679152367726286238, guid: 286b56d7df9145144837c640aa82d47c, type: 3}
   scoreText: {fileID: 487088167}
   ScoreToBeat: 10000
   scoreToBeatText: {fileID: 1349957436}
@@ -6839,7 +6841,7 @@ SpriteRenderer:
   m_Size: {x: 15.36, y: 15.36}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1643606441
@@ -7911,7 +7913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2239659d2d3bdf145bd72afec876e0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectSound: {fileID: 8300000, guid: 2bbc89dd2f5809e4abca1c35b9e4103e, type: 3}
+  collectSound: {fileID: 8300000, guid: 20cb33d30908e134b81dc220fda5b703, type: 3}
   _audioSource: {fileID: 2109020986}
   rows:
   - {fileID: 1108780396553927935}

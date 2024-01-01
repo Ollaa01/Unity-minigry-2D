@@ -66,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2278340937802701090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b08ca5e6428cd564fbaf18186b3ab00b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b314478f2ef0f148b2b827ea1063ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2278340938609675490
@@ -187,11 +187,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2278340938609675490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de78af701b3cb44cba571c25fe96aee, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a003fcd513602b408f3ef225153d87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minHealth: 0
-  maxHealth: 25
+  maxHealth: 50
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
@@ -361,11 +361,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2278340939239115594}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de78af701b3cb44cba571c25fe96aee, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a003fcd513602b408f3ef225153d87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minHealth: 0
-  maxHealth: 25
+  maxHealth: 50
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
@@ -535,11 +535,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2278340939492547381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de78af701b3cb44cba571c25fe96aee, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a003fcd513602b408f3ef225153d87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minHealth: 0
-  maxHealth: 25
+  maxHealth: 50
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}

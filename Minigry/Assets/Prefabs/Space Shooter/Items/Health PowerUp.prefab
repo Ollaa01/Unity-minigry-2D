@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpType: 1
-  numToGive: 10
+  numToGive: 50
 --- !u!50 &51133639
 Rigidbody2D:
   serializedVersion: 4

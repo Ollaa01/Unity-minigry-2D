@@ -6,37 +6,54 @@ using UnityEngine.SceneManagement;
 
 public class P_TimeManager : MonoBehaviour
 {
-    public Text timerText; // Referencja do tekstu licznika czasu
-    public Text gameOverText; // Referencja do tekstu "GameOver"
-    public Text gameWinText; // Referencja do tekstu "GameOver"
-    public Button replayButton; // Referencja do przycisku "Replay"
-    public float gameTime = 30f; // Czas gry w sekundach
-    private float timer; // Aktualny czas od rozpoczêcia gry
-    private bool isGameOver = false; // Flaga informuj¹ca, czy gra skoñczy³a siê
-    private bool GameWin = false;
+    public Text timerText; 
+    public Text gameOverText; 
+    public Text gameWinText;
+    public Button gameNextButton;
+    public Button replayButton;
+    public GameObject winParticleSystem;
+    public float gameTime = 30f; 
+    private float timer; 
+    private bool isGameOver = false;
+    private bool wasConfettiPlayed = false;
+    //private bool GameWin = false;
 
+    private void Awake()
+    {
+        WinConfetti();
+        gameNextButton.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        replayButton.gameObject.SetActive(false);
+        replayButton.onClick.AddListener(Replay);
+        gameWinText.gameObject.SetActive(false);
+        wasConfettiPlayed = false;
+        Debug.Log("Awake wykonano");
+    }
     void Start()
     {
         timer = 0f;
         UpdateTimerDisplay();
-        gameOverText.gameObject.SetActive(false); // Ukryj napis "GameOver" na pocz¹tku
-        replayButton.gameObject.SetActive(false); // Ukryj przycisk "Replay" na pocz¹tku
-        replayButton.onClick.AddListener(Replay); // Dodaj obs³ugê klikniêcia do przycisku "Replay"
-        gameWinText.gameObject.SetActive(false);
+        Debug.Log("Start wykonano");
+        /*
+        gameOverText.gameObject.SetActive(false); 
+        replayButton.gameObject.SetActive(false); 
+        replayButton.onClick.AddListener(Replay); 
+        gameWinText.gameObject.SetActive(false); */
     }
 
     void Update()
     {
         if (P_PiecesScript.CheckIfWon())
         {
-            gameWinText.gameObject.SetActive(true);
+            WinConfetti();
+            //gameWinText.gameObject.SetActive(true);
+            gameNextButton.gameObject.SetActive(true);
             return;
         }
         if (!isGameOver)
         {
             timer += Time.deltaTime;
 
-            // SprawdŸ, czy up³ynê³o 30 sekund
             if (timer >= gameTime && P_PiecesScript.CheckIfWon() == false)
             {
                 GameOver();
@@ -49,7 +66,6 @@ public class P_TimeManager : MonoBehaviour
     void UpdateTimerDisplay()
     {
         float timeLeft = gameTime - Mathf.Round(timer);
-        // Aktualizuj tekst licznika czasu na górze ekranu
         if (timerText != null)
         {
             timerText.text = "Time left: " + timeLeft.ToString() + " s";
@@ -58,15 +74,33 @@ public class P_TimeManager : MonoBehaviour
 
     void GameOver()
     {
-        // Wyœwietl napis "GameOver"
         gameOverText.gameObject.SetActive(true);
-        replayButton.gameObject.SetActive(true); // Poka¿ przycisk "Replay"
+        replayButton.gameObject.SetActive(true); 
         isGameOver = true;
     }
 
     void Replay()
     {
-        // Ponownie za³aduj scenê
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void WinConfetti()
+    {
+        if (wasConfettiPlayed == false)
+        {
+            if (winParticleSystem == null)
+                return;
+            wasConfettiPlayed = true;
+            // Ustaw pozycjê na œrodek ekranu
+            Vector3 screenCenter = new Vector3((Screen.width / 2f), Screen.height / 3f, 100f);
+            Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
+
+            GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
+
+
+            // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
+            explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+            Destroy(explosion, 4f);
+        }
     }
 }
