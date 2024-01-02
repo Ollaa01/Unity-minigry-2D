@@ -26,6 +26,7 @@ public class S_ScoreManager : MonoBehaviour
     }
     void Start()
     {
+        GetDifficulty();
     }
     public void SetHighScore()
     {
@@ -50,5 +51,24 @@ public class S_ScoreManager : MonoBehaviour
         if (highScoreText != null)
             highScoreText.text = PlayerPrefs.GetInt(HIGHSCORE_KEY).ToString();
     }
-    
+
+    private void GetDifficulty()
+    {
+        float difficultyLevel = PlayerPrefs.GetFloat("Difficulty", 1f);
+        Debug.Log("Aktualny poziom trudnoœci: " + difficultyLevel);
+        if (difficultyLevel == 1f)
+        {
+            Debug.Log("score set");
+            scoreToBeat = 500;
+        }
+        if (difficultyLevel == 2f)
+        {
+            scoreToBeat = 1000;
+        }
+        if (difficultyLevel == 3f)
+        {
+            scoreToBeat = 2000;
+        }
+    }
+
 }

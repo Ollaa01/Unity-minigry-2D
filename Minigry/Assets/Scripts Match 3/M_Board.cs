@@ -1,3 +1,7 @@
+/**
+ * @file M_Board.cs
+ * Script for managing the game board in a match-3 game.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,33 +10,49 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine.UI;
 
+/**
+ * Class for managing the game board in a match-3 game.
+ */
 public class M_Board : MonoBehaviour
 {
-    public static M_Board Instance { get; private set; } //singleton mozliwey
+    public static M_Board Instance { get; private set; } /** The singleton instance of the M_Board class. */
 
-    [SerializeField] private AudioClip collectSound;
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip collectSound; /** The sound to play when collecting tiles. */
+    [SerializeField] private AudioSource _audioSource; /** The audio source to play sound effects. */
 
-    public M_Row[] rows;
+    public M_Row[] rows; /** The rows of tiles on the game board. */
+
+    /** The 2D array of tiles representing the game board. */
     public M_Tile[,] tiles { get; private set; }
 
+    /** The width of the game board. */
     public int Width => tiles.GetLength(0);
+
+    /** The height of the game board. */
     public int Height=> tiles.GetLength(1);
 
-    private M_Tile _selectedTile1;
-    private M_Tile _selectedTile2;
+    private M_Tile _selectedTile1;  /** The first selected tile for swapping. */
+    private M_Tile _selectedTile2; /** The second selected tile for swapping. */
+    private readonly List<M_Tile> _selection = new List<M_Tile>(); /** The list to store the selected tiles for swapping. */
+    private const float TweenDuration = 0.25f; /** The duration of the swap animation. */
+    private bool isSwapping = false; /** Flag indicating whether a swap animation is in progress. */
+    private bool isWaiting = false; /** Flag indicating whether the game is waiting before shuffling the board. */
+    private float waitStartTime;   /** The start time of the waiting period. */
+    public Text noMoves;  /** The text displaying a message when there are no possible moves. */
+    private int consecutiveMatches = 0; /** The count of consecutive matches for triggering special effects. */
+    private int comboCount = 0; /** The count of tiles matched in a single combo. */
 
-    private readonly List<M_Tile> _selection = new List<M_Tile>();
-
-    private const float TweenDuration = 0.25f;
-    private bool isSwapping = false;
-
+    /**
+     * The awake method to set up the singleton instance.
+     */
     public void Awake() => Instance = this;
 
+    /**
+     * The start method to initialize the game board.
+     */
     void Start()
     {
-        particleSystem.Stop();
-        //excellentPanel.SetActive(false);
+        //particleSystem.Stop();
         noMoves.gameObject.SetActive(false);
         tiles = new M_Tile[rows.Max(row => row.Rtiles.Length), rows.Length];
 
@@ -48,18 +68,18 @@ public class M_Board : MonoBehaviour
 
             }
         }
-
-        Pop();
-
+        while (CanPop())
+        {
+            ShuffleBoard();
+        }
     }
-    private bool isWaiting = false;
-    private float waitStartTime;
-    public Text noMoves;
+    /**
+     * The update method to check for possible moves and trigger shuffling.
+     */
     public void Update()
     {
         if (!HasPossibleMoves() && !isWaiting)
         {
-            Debug.Log("Brak mo¿liwych ruchów. Oczekiwanie 5 sekund przed tasowaniem planszy...");
             noMoves.gameObject.SetActive(true);
             isWaiting = true;
             waitStartTime = Time.time;
@@ -70,9 +90,12 @@ public class M_Board : MonoBehaviour
             noMoves.gameObject.SetActive(false);
             isWaiting = false;
         }
+        
 
     }
-
+    /**
+     * Coroutine to shuffle the board after a delay.
+     */
     IEnumerator ShuffleAfterDelay()
     {
         yield return new WaitForSeconds(5f);
@@ -80,45 +103,37 @@ public class M_Board : MonoBehaviour
         ShuffleBoard();
     }
 
+    /**
+     * Method to handle tile selection.
+     * @param tile The selected tile.
+     */
     public async void Select(M_Tile tile)
     {
-        // SprawdŸ, czy trwa animacja zamiany kafelków
         if (isSwapping)
         {
-            // Ignoruj klikniêcie, jeœli animacja jest w trakcie
             return;
         }
         if (!_selection.Contains(tile)) 
         { 
-             //Przesuwaj s¹siadów
             if (_selection.Count > 0)
             {
                 if (System.Array.IndexOf(_selection[0].Neighbours, tile) != -1)
                 {
-                    //Debug.Log("add tile to list " + tile);
                     _selection.Add(tile);
                 }
                 else
                 {
-                    // Jeœli klikniêty kafelek nie jest s¹siadem, zrestartuj zaznaczenie.
-                   // Debug.Log("zrestartowalem");
                     _selection.Clear();
                     _selection.Add(tile);
                 }
             }
             else
             {
-                //Debug.Log("add tile to list by else " + tile);
                 _selection.Add(tile);
             } 
-            //_selection.Add(tile); //przesuwaj na ca³ej planszy
         }
 
         if (_selection.Count < 2) return;
-
-        //Debug.Log("Select tiles at " + _selection[0].x + " " + _selection[0].y + " " + _selection[1].x + " " + _selection[1].y + " ");
-
-        //await Swap(_selection[0], _selection[1]);
         if (_selection.Count >= 2)
         {
             Debug.Log($"Wybrane kafelki: {_selection[0].x}, {_selection[0].y} i {_selection[1].x}, {_selection[1].y}");
@@ -126,7 +141,6 @@ public class M_Board : MonoBehaviour
             await Swap(_selection[0], _selection[1]);
             isSwapping = false;
         }
-        //StartCoroutine(Swap2(_selection[0], _selection[1]));
 
         if (CanPop())
         {
@@ -137,13 +151,15 @@ public class M_Board : MonoBehaviour
             isSwapping = true;
             await Swap(_selection[0], _selection[1]);
             isSwapping = false;
-            //StartCoroutine(Swap2(_selection[0], _selection[1]));
         }
-        //Debug.Log("bleble " + consecutiveMatches);
-        //consecutiveMatches = 0;
         _selection.Clear();
     }
 
+    /**
+     * Async method to swap two tiles.
+     * @param tile1 The first tile to swap.
+     * @param tile2 The second tile to swap.
+     */
     public async Task Swap(M_Tile tile1, M_Tile tile2)
     {
         var icon1 = tile1.icon;
@@ -173,46 +189,11 @@ public class M_Board : MonoBehaviour
 
     }
 
-    public IEnumerator Swap2(M_Tile tile1, M_Tile tile2)
-    {
-        var icon1 = tile1.icon;
-        var icon2 = tile2.icon;
 
-        var icon1Transform = icon1.transform;
-        var icon2Transform = icon2.transform;
-
-        Vector3 startPos1 = icon1Transform.position;
-        Vector3 startPos2 = icon2Transform.position;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < TweenDuration)
-        {
-            icon1Transform.position = Vector3.Lerp(startPos1, startPos2, elapsedTime / TweenDuration);
-            icon2Transform.position = Vector3.Lerp(startPos2, startPos1, elapsedTime / TweenDuration);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // Upewnij siê, ¿e obiekty s¹ dok³adnie na swoich miejscach po zakoñczeniu animacji
-        icon1Transform.position = startPos2;
-        icon2Transform.position = startPos1;
-
-        // Przypisz ikony i rodziców na koniec animacji
-        icon1Transform.SetParent(tile2.transform, false); // false oznacza, ¿e nie zerujemy lokalnej transformacji
-        icon2Transform.SetParent(tile1.transform, false);
-
-        tile1.icon = icon2;
-        tile2.icon = icon1;
-
-        var tile1Item = tile1.Item;
-
-        tile1.Item = tile2.Item;
-        tile2.Item = tile1Item;
-    }
-
+    /**
+     * Method to check if popping is possible on the board.
+     * @return True if popping is possible, false otherwise.
+     */
     private bool CanPop()
     {
         for (var y = 0; y < Height; y++)
@@ -226,8 +207,10 @@ public class M_Board : MonoBehaviour
         return false;
 
     }
-    private int consecutiveMatches = 0;
-    private int comboCount = 0;
+
+    /**
+     * Method to initiate popping of matched tiles on the board.
+     */
     private async void Pop()
     {
         for (var y = 0; y < Height; y++)
@@ -240,8 +223,8 @@ public class M_Board : MonoBehaviour
 
                 if (connectedTiles.Skip(1).Count() < 2) continue;
 
-                comboCount += connectedTiles.Count; //
-                consecutiveMatches++; //
+                comboCount += connectedTiles.Count; 
+                consecutiveMatches++; 
                 Debug.Log("ble " + consecutiveMatches);
                 var deflateSequence = DOTween.Sequence();
 
@@ -254,15 +237,14 @@ public class M_Board : MonoBehaviour
 
                 if (comboCount >= 5)
                 {
-                    ShowExcellentWindow();
+                    HitBoss();
                     M_Score.Instance.Score += 100;
                 }
                 if (consecutiveMatches >= 3)
                 {
-                    ShowExcellentWindow();
+                    HitBoss();
                     Debug.Log("showed in if");
                     M_Score.Instance.Score += 100;
-                    //consecutiveMatches = 0;
                 }
 
                 M_Score.Instance.Score += tile.Item.value * connectedTiles.Count;
@@ -286,47 +268,17 @@ public class M_Board : MonoBehaviour
                 y = 0;
 
                 comboCount = 0;
+
+                SimpleHitBoss();
                 
             }
         }
     }
-    public void ShuffleBoard()
-    {
 
-        List<M_Tile> allTiles = new List<M_Tile>();
-
-        // Zbierz wszystkie kafelki na planszy do listy
-        for (int y = 0; y < Height; y++)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                allTiles.Add(tiles[x, y]);
-            }
-        }
-
-        // Wymieszaj elementy na liœcie
-        for (int i = 0; i < allTiles.Count; i++)
-        {
-            int randomIndex = Random.Range(i, allTiles.Count);
-            M_Tile temp = allTiles[i];
-            allTiles[i] = allTiles[randomIndex];
-            allTiles[randomIndex] = temp;
-        }
-
-        // Przypisz nowe przedmioty do kafelków
-        int index = 0;
-        for (int y = 0; y < Height; y++)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                tiles[x, y].Item = allTiles[index].Item;
-                index++;
-            }
-        }
-        //Debug.Log("Shuffled!");
-        Pop();
-    }
-
+    /**
+     * Method to check if there are possible moves on the board.
+     * @return True if there are possible moves, false otherwise.
+     */
     private bool HasPossibleMoves()
     {
         for (int y = 0; y < Height; y++)
@@ -335,52 +287,44 @@ public class M_Board : MonoBehaviour
             {
                 M_Tile currentTile = tiles[x, y];
 
-                // Check right neighbor
                 if (x < Width - 1)
                 {
                     SwapTiles(currentTile, tiles[x + 1, y]);
                     if (CanPop())
                     {
-                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x + 1}, {y})");
                         SwapTiles(currentTile, tiles[x + 1, y]);
                         return true;
                     }
                     SwapTiles(currentTile, tiles[x + 1, y]);
                 }
 
-                // Check down neighbor
                 if (y < Height - 1)
                 {
                     SwapTiles(currentTile, tiles[x, y + 1]);
                     if (CanPop())
                     {
-                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y + 1})");
                         SwapTiles(currentTile, tiles[x, y + 1]);
                         return true;
                     }
                     SwapTiles(currentTile, tiles[x, y + 1]);
                 }
 
-                // Check left neighbor
                 if (x > 0)
                 {
                     SwapTiles(currentTile, tiles[x - 1, y]);
                     if (CanPop())
                     {
-                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x - 1}, {y})");
                         SwapTiles(currentTile, tiles[x - 1, y]);
                         return true;
                     }
                     SwapTiles(currentTile, tiles[x - 1, y]);
                 }
 
-                // Check bottom neighbor
                 if (y > 0)
                 {
                     SwapTiles(currentTile, tiles[x, y - 1]);
                     if (CanPop())
                     {
-                        //Debug.Log($"Possible match at ({currentTile.x}, {currentTile.y}) and ({x}, {y - 1})");
                         SwapTiles(currentTile, tiles[x, y - 1]);
                         return true;
                     }
@@ -393,41 +337,122 @@ public class M_Board : MonoBehaviour
         return false;
     }
 
+    /**
+     * Method to swap tiles without modifying the board.
+     * @param tile1 The first tile to swap.
+     * @param tile2 The second tile to swap.
+     */
     private void SwapTiles(M_Tile tile1, M_Tile tile2)
     {
-        // SprawdŸ, czy oba kafelki nie s¹ nullami
         if (tile1 == null || tile2 == null)
         {
             Debug.LogWarning("One of the tiles is null. Swap aborted.");
             return;
         }
 
-        // Zamieñ miejscami kafelki bez animacji, poniewa¿ chcemy tylko sprawdziæ, czy to spowoduje matcha
         M_Item tempItem = tile1.Item;
         tile1.Item = tile2.Item;
         tile2.Item = tempItem;
     }
 
-    public GameObject excellentPanel;
-    public new ParticleSystem particleSystem;
-    private void ShowExcellentWindow()
+    /**
+     * Hits the boss character.
+     */
+    private void HitBoss()
     {
-        //excellentPanel.SetActive(true);
-        particleSystem.Play();
-        Debug.Log("Particle system played");
-        // Mo¿esz dodaæ dodatkowe efekty wizualne lub dŸwiêkowe tutaj.
-
-        StartCoroutine(HideExcellentWindowAfterDelay());
+        M_WiggleBoss wiggleBossScript = FindObjectOfType<M_WiggleBoss>();
+        if (wiggleBossScript != null)
+        {
+            wiggleBossScript.Hit();
+        }
     }
 
-    private IEnumerator HideExcellentWindowAfterDelay()
+    /**
+     * Performs a simple hit on the boss character.
+     */
+    private void SimpleHitBoss()
     {
-        yield return new WaitForSeconds(3.0f); // Ukryj okno po 2 sekundach (mo¿esz dostosowaæ czas).
-        Debug.Log("Stopping Particle System");
-        particleSystem.Stop();
-        //excellentPanel.SetActive(false);
+        M_WiggleBoss wiggleBossScript = FindObjectOfType<M_WiggleBoss>();
+        if (wiggleBossScript != null)
+        {
+            wiggleBossScript.SimpleHit();
+        }
     }
 
+    /**
+     * Counts the number of tiles of each type on the board.
+     */
+    public Dictionary<M_Item, int> CountTilesOfType()
+    {
+        Dictionary<M_Item, int> tileCounts = new Dictionary<M_Item, int>();
 
+        for (var y = 0; y < Height; y++)
+        {
+            for (var x = 0; x < Width; x++)
+            {
+                M_Item item = tiles[x, y].Item;
 
+                if (item != null)
+                {
+                    if (tileCounts.ContainsKey(item))
+                    {
+                        tileCounts[item]++;
+                    }
+                    else
+                    {
+                        tileCounts[item] = 1;
+                    }
+                }
+            }
+        }
+
+        return tileCounts;
+    }
+
+    /**
+     * Shuffles the board.
+     */
+    public void ShuffleBoard()
+    {
+        Dictionary<M_Item, int> originalTileCounts = CountTilesOfType();
+
+        List<M_Tile> allTiles = new List<M_Tile>();
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                allTiles.Add(tiles[x, y]);
+            }
+        }
+
+        for (int i = 0; i < allTiles.Count; i++)
+        {
+            int randomIndex = Random.Range(i, allTiles.Count);
+            M_Tile temp = allTiles[i];
+            allTiles[i] = allTiles[randomIndex];
+            allTiles[randomIndex] = temp;
+        }
+
+        Dictionary<M_Item, int> remainingTileCounts = new Dictionary<M_Item, int>(originalTileCounts);
+
+        foreach (M_Tile tile in allTiles)
+        {
+            List<M_Item> availableTypes = remainingTileCounts.Keys.ToList();
+            M_Item randomType = availableTypes[Random.Range(0, availableTypes.Count)];
+
+            tile.Item = randomType;
+
+            remainingTileCounts[randomType]--;
+            if (remainingTileCounts[randomType] == 0)
+            {
+                remainingTileCounts.Remove(randomType);
+            }
+        }
+
+        if (CanPop())
+        {
+            Debug.Log("shuffled with pair!");
+            ShuffleBoard();
+        }
+    }
 }

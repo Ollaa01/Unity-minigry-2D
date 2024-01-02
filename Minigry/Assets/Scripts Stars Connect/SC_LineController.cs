@@ -20,11 +20,18 @@ public class SC_LineController : MonoBehaviour
     public GameObject replayButton;
     public GameObject starsNames;
     public GameObject moveButton;
+    [SerializeField] private AudioClip winSound;
+    private AudioSource audioSource;
     public string moveToScene = null;
     private int maxCount;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         winTextObject.SetActive(false);
         errorTextObject.SetActive(false);
         replayButton.SetActive(true);
@@ -172,5 +179,10 @@ public class SC_LineController : MonoBehaviour
         // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
         explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         Destroy(explosion, 4f);
+        if (audioSource != null && winSound != null)
+        {
+            audioSource.PlayOneShot(winSound);
+        }
+
     }
 }

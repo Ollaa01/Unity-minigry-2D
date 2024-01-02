@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: MG_Menu
-  stopMusic: 0
+  stopMusic: 1
 --- !u!114 &950716346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,8 +1394,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039498040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0102, y: -0.1314, z: 100}
-  m_LocalScale: {x: 20.205853, y: 10.674457, z: 1}
+  m_LocalPosition: {x: 0.1245, y: -0.1314, z: 100}
+  m_LocalScale: {x: 21.425245, y: 10.674457, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2012079813}
@@ -1571,7 +1571,7 @@ MonoBehaviour:
   infiniteLasers: 1
   laserSound: {fileID: 8300000, guid: 62729d69f98456b42ac4ddc8759d7edd, type: 3}
   missileSound: {fileID: 8300000, guid: 410d79b374d71c24c99093d9f2d6643e, type: 3}
-  backgroundMusic: {fileID: 8300000, guid: caab994a8b51f1d479d61b8e3034314b, type: 3}
+  backgroundMusic: {fileID: 0}
 --- !u!4 &1219777411
 Transform:
   m_ObjectHideFlags: 0
@@ -1978,6 +1978,7 @@ MonoBehaviour:
   gameOver: {fileID: 405346208}
   gameWin: {fileID: 1788409711}
   winParticleSystem: {fileID: 5679152367726286238, guid: 286b56d7df9145144837c640aa82d47c, type: 3}
+  winSound: {fileID: 8300000, guid: 2e985fc27fc295343b5a57399538a132, type: 3}
 --- !u!4 &1523199528
 Transform:
   m_ObjectHideFlags: 0
@@ -2869,7 +2870,7 @@ PrefabInstance:
     - target: {fileID: 707908043, guid: 0f3a97587889e02478fa3d84e7dd6617, type: 3}
       propertyPath: deathSound
       value: 
-      objectReference: {fileID: 8300000, guid: 38066d147e1e29c45b46a49301e1e7ef, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 707908043, guid: 0f3a97587889e02478fa3d84e7dd6617, type: 3}
       propertyPath: healthFill
       value: 

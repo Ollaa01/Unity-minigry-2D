@@ -412,6 +412,7 @@ MonoBehaviour:
   replayButton: {fileID: 1644954534}
   starsNames: {fileID: 1749908985}
   moveButton: {fileID: 1841921366}
+  winSound: {fileID: 0}
   moveToScene: 
 --- !u!4 &192265281
 Transform:
@@ -1026,7 +1027,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941214939}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2820e539f5cf731458c7f20f30accb92, type: 3}
   m_Name: 
@@ -2765,6 +2766,6 @@ PrefabInstance:
     - target: {fileID: 8089163969705613479, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}
       propertyPath: clickEffectPrefab
       value: 
-      objectReference: {fileID: 5310496861867573015, guid: aced734a1880af24bafe555f01515d65, type: 3}
+      objectReference: {fileID: 5598922922951031158, guid: 7bdbe360421fb71469db87007976642c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2db1a8a0c35a0949aaac57dc67c17db, type: 3}

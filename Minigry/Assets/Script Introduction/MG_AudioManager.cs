@@ -24,6 +24,7 @@ public class MG_AudioManager : MonoBehaviour
 
     private void Start()
     {
+        GetVolume();
         Debug.Log("Before: " + musicSource.isPlaying);
         PlayMusic();
         Debug.Log("Played: " + musicSource.isPlaying);
@@ -44,4 +45,10 @@ public class MG_AudioManager : MonoBehaviour
         }
     }
 
+    private void GetVolume()
+    {
+        float volumeLevel = PlayerPrefs.GetFloat("Volume", 1f);
+        Debug.Log("Aktualny poziom g³oœnoœcii: " + volumeLevel);
+        AudioListener.volume = volumeLevel;
+    }
 }

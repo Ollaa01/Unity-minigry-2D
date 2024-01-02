@@ -12,6 +12,10 @@ public class P_TimeManager : MonoBehaviour
     public Button gameNextButton;
     public Button replayButton;
     public GameObject winParticleSystem;
+    [SerializeField] private Image uiFill;
+    [SerializeField] private Text uiText;
+    [SerializeField] private AudioClip winSound;
+    private AudioSource audioSource;
     public float gameTime = 30f; 
     private float timer; 
     private bool isGameOver = false;
@@ -20,7 +24,6 @@ public class P_TimeManager : MonoBehaviour
 
     private void Awake()
     {
-        WinConfetti();
         gameNextButton.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
         replayButton.gameObject.SetActive(false);
@@ -31,6 +34,7 @@ public class P_TimeManager : MonoBehaviour
     }
     void Start()
     {
+        getDifficulty();
         timer = 0f;
         UpdateTimerDisplay();
         Debug.Log("Start wykonano");
@@ -70,6 +74,11 @@ public class P_TimeManager : MonoBehaviour
         {
             timerText.text = "Time left: " + timeLeft.ToString() + " s";
         }
+        if (uiText != null && uiFill != null)
+        {
+            uiText.text = $"{(int)timeLeft / 60:00} : {timeLeft % 60:00}";
+            uiFill.fillAmount = Mathf.InverseLerp(0, gameTime, timeLeft);
+        }
     }
 
     void GameOver()
@@ -101,6 +110,30 @@ public class P_TimeManager : MonoBehaviour
             // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
             explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
             Destroy(explosion, 4f);
+
+            if (audioSource != null && winSound != null)
+            {
+                audioSource.PlayOneShot(winSound);
+            }
+        }
+    }
+
+    private void getDifficulty()
+    {
+        float difficultyLevel = PlayerPrefs.GetFloat("Difficulty", 1f);
+        Debug.Log("Aktualny poziom trudnoœci: " + difficultyLevel);
+        if(difficultyLevel == 1f)
+        {
+            Debug.Log("time set");
+            gameTime = 300f;
+        }
+        if(difficultyLevel == 2f)
+        {
+            gameTime = 180f;
+        }
+        if (difficultyLevel == 3f)
+        {
+            gameTime = 100f;
         }
     }
 }

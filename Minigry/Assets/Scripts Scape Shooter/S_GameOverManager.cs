@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class S_GameOverManager : MonoBehaviour
 {
     [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem;
+    [SerializeField] private AudioClip winSound;
+    private AudioSource audioSource;
     private bool isGameWin = false;
 
     // Start is called before the first frame update
@@ -72,5 +74,9 @@ public class S_GameOverManager : MonoBehaviour
         // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
         explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         Destroy(explosion, 4f);
+        if (audioSource != null && winSound != null)
+        {
+            audioSource.PlayOneShot(winSound);
+        }
     }
 }

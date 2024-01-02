@@ -45,3 +45,6 @@ TagManager:
   - name: Pieces
     uniqueID: 3628774393
     locked: 0
+  - name: Options
+    uniqueID: 1963048017
+    locked: 0
