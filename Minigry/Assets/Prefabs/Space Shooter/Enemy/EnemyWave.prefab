@@ -195,7 +195,7 @@ MonoBehaviour:
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
-  deathSound: {fileID: 8300000, guid: 38066d147e1e29c45b46a49301e1e7ef, type: 3}
+  deathSound: {fileID: 8300000, guid: 3f0ef66521094754f8489f6a42e9d88a, type: 3}
 --- !u!50 &2278340938609675493
 Rigidbody2D:
   serializedVersion: 4
@@ -369,7 +369,7 @@ MonoBehaviour:
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
-  deathSound: {fileID: 8300000, guid: 38066d147e1e29c45b46a49301e1e7ef, type: 3}
+  deathSound: {fileID: 8300000, guid: 3f0ef66521094754f8489f6a42e9d88a, type: 3}
 --- !u!50 &2278340939239115597
 Rigidbody2D:
   serializedVersion: 4
@@ -543,7 +543,7 @@ MonoBehaviour:
   healthFill: {fileID: 0}
   healthText: {fileID: 0}
   explosionEffectPrefab: {fileID: 7305776046299735073, guid: 756a6e35fe9738944af7116b0aefcd38, type: 3}
-  deathSound: {fileID: 8300000, guid: 38066d147e1e29c45b46a49301e1e7ef, type: 3}
+  deathSound: {fileID: 8300000, guid: 3f0ef66521094754f8489f6a42e9d88a, type: 3}
 --- !u!50 &2278340939492547384
 Rigidbody2D:
   serializedVersion: 4

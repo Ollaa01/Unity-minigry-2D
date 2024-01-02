@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/*
 public class VButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     public bool value = false;
@@ -30,3 +31,4 @@ public class VButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IP
         
     }
 }
+*/

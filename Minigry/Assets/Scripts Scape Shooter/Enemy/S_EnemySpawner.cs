@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/**
+ * Manages the spawning of enemies in the game.
+ */
 public class S_EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private int maxEnemies = 3;
-    [SerializeField] private GameObject[] enemiesToSpawn = new GameObject[2];
-    [SerializeField] private int interval = 10;
-    [SerializeField] private int enemyDeathsToSpawnBoss = 4;
-    [SerializeField] private GameObject enemyBoss;
-    public static S_EnemySpawner Instance;
+    [SerializeField] private int maxEnemies = 3; /** Maximum number of enemies to be spawned. */
+    [SerializeField] private GameObject[] enemiesToSpawn = new GameObject[2]; /** Array of enemy prefabs to spawn.*/
+    [SerializeField] private int interval = 10; /** Interval for spawning enemies. */
+    [SerializeField] private int enemyDeathsToSpawnBoss = 4; /** Number of enemy deaths required to spawn a boss. */
+    [SerializeField] private GameObject enemyBoss; /** Boss enemy prefab. */
+    public static S_EnemySpawner Instance; /** Singleton instance of the enemy spawner. */
+    public static int enemiesDefeated = 0; /** Number of enemies defeated. */
+    private bool exec = false; /** Flag for tracking the execution of spawning a boss enemy. */
 
-    public static int enemiesDefeated = 0;
 
+    /**
+    * Check if a boss enemy has already been spawned.
+    * @return True if a boss enemy is already spawned, false otherwise.
+    */
     private bool IsBossAlreadySpawned()
     {
-        // Sprawdü, czy istnieje juø przeciwnik typu boss na scenie
         S_Enemy[] temp = GameObject.FindObjectsOfType<S_Enemy>();
         for (int i = 0; i < temp.Length; i++)
         {
@@ -26,63 +34,66 @@ public class S_EnemySpawner : MonoBehaviour
         }
         return false;
     }
+
+    /**
+     * Get the total number of enemies in the scene.
+     * @return The total number of enemies.
+     */
     private int GetNumberOfEnemies()
     {
         int num = 0;
         S_Enemy[] temp = GameObject.FindObjectsOfType<S_Enemy>();
-        Debug.Log("temp " + temp.Length);
         for (int i = 0; i < temp.Length; i++)
         {
             if (temp[i].enemyType == S_Enemy.EnemyType.Individual)
                 num++;
             if (temp[i].enemyType == S_Enemy.EnemyType.Wave)
                 num += GameObject.FindObjectOfType<S_EnemyWave>().NumOfEnemies();
-            Debug.Log("a " + num);
         }
-        // EnemyWave[] temp2 = GameObject.FindObjectOfType<EnemyWave>();
-        //  if (GameObject.FindObjectOfType<EnemyWave>() == true)
-        //    num++;
-        //num += GameObject.FindObjectOfType<EnemyWave>().NumOfEnemies();
         return num;
     }
+
+    /**
+     * Spawn random enemies.
+     */
     private void SpawnEnemies()
     {
         
         if (GetNumberOfEnemies() >= maxEnemies)
             return;
         int n = Random.Range(0, enemiesToSpawn.Length);
-        Debug.Log(n);
-        // int i = GetNumberOfEnemies();
-        //Debug.Log("Bleble " + i);
         Instantiate(enemiesToSpawn[n]);
-        /*
-        for (int i = GetNumberOfEnemies(); i <= maxEnemies; i++)
-        {
-            Debug.Log("num " + i);
-            if(enemiesToSpawn[n] != null)
-                 Instantiate(enemiesToSpawn[n]);
-        } */
-
     }
-    // Start is called before the first frame update
+
+    /**
+    * Start is called before the first frame update.
+    */
     private void Start()
     {
         SpawnEnemies();
     }
 
+    /**
+     * Spawn a boss enemy.
+     */
     private void SpawnEnemyBoss()
     {
         if (!IsBossAlreadySpawned() && enemyBoss != null)
             Instantiate(enemyBoss);
     }
 
-    private bool exec = false;
-
+    /**
+     * Set the execution flag for spawning a boss enemy.
+     * @param type The value to set the execution flag.
+     */
     public void SetExec(bool type)
     {
         exec = type;
     }
-    // Update is called once per frame
+
+    /**
+     * Update is called once per frame.
+     */
     private void Update()
     {
         if (enemiesDefeated >= enemyDeathsToSpawnBoss)

@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * Manages the game score and handles score-related events.
+ */
 public class S_ScoreManager : MonoBehaviour
 {
-    [SerializeField] private Text scoreText, highScoreText, scoreToBeatText;
-    [SerializeField] int scoreToBeat = 1000;
-    public static S_ScoreManager Instance;
-    private int currentScore = 0;
-    private string HIGHSCORE_KEY = "HighScore";
-    public int Score { get { return currentScore; } }
-    // Start is called before the first frame update
+    [SerializeField] private Text scoreText, highScoreText, scoreToBeatText; /** UI text objects for displaying score, high score, and score to beat. */
+    [SerializeField] int scoreToBeat = 1000; /** The score required to win the game. */
+    public static S_ScoreManager Instance; /** Singleton instance of S_ScoreManager. */
+    private int currentScore = 0; /** The current score of the game. */
+    private string HIGHSCORE_KEY = "HighScore";  /** Key used for storing and retrieving the high score in PlayerPrefs. */
 
+    /**
+     * Gets the current score.
+     * @return The current score.
+     */
+    public int Score { get { return currentScore; } }
+
+    /**
+     * Increases the score by the specified amount.
+     * If the score surpasses the score to beat, triggers the game win event.
+     * @param num The amount by which to increase the score.
+     */
     public void IncreaseScore(int num)
     {
         if (num > 0)
@@ -24,10 +36,18 @@ public class S_ScoreManager : MonoBehaviour
             }
         }
     }
+
+    /**
+     * Start is called before the first frame update.
+     */
     void Start()
     {
         GetDifficulty();
     }
+
+    /**
+     * Sets the high score if the current score is higher.
+     */
     public void SetHighScore()
     {
         int hS = PlayerPrefs.GetInt(HIGHSCORE_KEY);
@@ -36,12 +56,17 @@ public class S_ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt(HIGHSCORE_KEY, currentScore);
     }
 
-
+    /**
+     * Awake is called when the script instance is being loaded.
+     */
     private void Awake()
     {
         Instance = this;
     }
-    // Update is called once per frame
+
+    /**
+     * Update is called once per frame.
+     */
     void Update()
     {
         if (scoreText != null)
@@ -52,6 +77,9 @@ public class S_ScoreManager : MonoBehaviour
             highScoreText.text = PlayerPrefs.GetInt(HIGHSCORE_KEY).ToString();
     }
 
+    /**
+     * Retrieves the difficulty level from PlayerPrefs and adjusts the score to beat accordingly.
+     */
     private void GetDifficulty()
     {
         float difficultyLevel = PlayerPrefs.GetFloat("Difficulty", 1f);

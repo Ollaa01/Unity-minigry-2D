@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Represents a wave of enemies, managing the number and destruction of enemies within the wave.
+ */
 public class S_EnemyWave : MonoBehaviour
 {
-    internal int Length;
-    
+    internal int Length; /** Number of enemies in the wave. */
+
+    /**
+     * Gets the number of enemies in the wave.
+     *
+     * @return The number of enemies in the wave.
+     */
     public int NumOfEnemies()
     {
-        // Pobierz wszystkie obiekty klasy Enemy, które s¹ dzieci¹ tego obiektu EnemyWave.
         S_Enemy[] enemies = GetComponentsInChildren<S_Enemy>();
-        Debug.Log("enemies in wave " + enemies.Length);
-        // Zwróæ liczbê obiektów klasy Enemy w tablicy.
         return enemies.Length;
 
     }
 
+    /**
+    * Destroys the entire wave object.
+    */
     public void DestroyWave()
     {
         Destroy(gameObject);

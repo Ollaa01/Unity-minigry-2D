@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Represents an enemy projectile that can cause damage to the player.
+ */
 public class S_EnemyProjectile : MonoBehaviour
 {
-    [SerializeField] protected int damage = 10;
-    [SerializeField] protected float timeToDestroy = 1f;
-    [SerializeField] protected bool destroyProjectile = true;
-    private bool collided = false;
+    [SerializeField] protected int damage = 10; /** The amount of damage the projectile can cause. */
+    [SerializeField] protected float timeToDestroy = 1f; /** The time it takes for the projectile to destroy itself. */
+    [SerializeField] protected bool destroyProjectile = true; /** Flag indicating whether the projectile should destroy itself. */
+    private bool collided = false; /** Flag indicating whether the projectile has collided with another object. */
+    private float timer = 0f; /** Timer to track the projectile's existence. */
 
-    private float timer = 0f;
+    /**
+     * Called when the projectile collides with another object.
+     * If the collision involves an object with S_HealthManager, decreases the health of that object.
+     * Destroys the projectile.
+     * @param collision The Collision2D data associated with this collision.
+     */
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collided = true;
@@ -17,13 +26,10 @@ public class S_EnemyProjectile : MonoBehaviour
             collision.gameObject.GetComponent<S_HealthManager>().DecreaseHealth(damage);
         Destroy(gameObject);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
+    /**
+     * Update is called once per frame.
+     */
     void Update()
     {
         if (!destroyProjectile)

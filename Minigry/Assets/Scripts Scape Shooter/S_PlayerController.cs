@@ -2,57 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/**
+ * Controls the player's movement and firing mechanics.
+ */
 public class S_PlayerController : MonoBehaviour
 {
-    public static S_PlayerController Instance;
+    public static S_PlayerController Instance; /** */
+
+    /**
+    * Enum representing the type of movement input for the player.
+    */
     public enum MovementInputType
     {
         PointerBased, ButtonBased
     }
-    [SerializeField]
-    private MovementInputType movementInputType;
-    [SerializeField]
-    private KeyCode up = KeyCode.UpArrow, down = KeyCode.DownArrow, left = KeyCode.LeftArrow, right = KeyCode.RightArrow;
-    [SerializeField]
-    private VButton uVB, dVB, lVB, rVB;
-    [SerializeField]
-    private float Speed = 10f;
-    [SerializeField]
-    private Vector2 minPos, maxPos;
-    private Vector2 pos;
+    [SerializeField] private MovementInputType movementInputType; /** The singleton instance of the player controller. */
+    [SerializeField] private KeyCode up = KeyCode.UpArrow, down = KeyCode.DownArrow, left = KeyCode.LeftArrow, right = KeyCode.RightArrow; /** The key codes for movement directions. */
+   // [SerializeField] private VButton uVB, dVB, lVB, rVB; /**  */
+    [SerializeField] private float Speed = 10f; /** The movement speed of the player. */
+    [SerializeField] private Vector2 minPos, maxPos; /** The boundaries for the player's movement. */
+    private Vector2 pos; /** The position of the player. */
 
     [Header("Laser")]
-    [SerializeField]
-    private GameObject laser;
-    [SerializeField]
-    private Vector2 laserSpeed = new Vector2(0f, 1f);
-    [SerializeField]
-    private Vector3 spawnOffset;
-    [SerializeField]
-    private float laserFireRate = 0.2f;
-    [SerializeField]
-    private KeyCode laserKey = KeyCode.Mouse1;
+    [SerializeField] private GameObject laser; /** The laser prefab. */
+    [SerializeField] private Vector2 laserSpeed = new Vector2(0f, 1f); /** The speed of the laser. */
+    [SerializeField] private Vector3 spawnOffset; /** The offset for spawning the laser. */
+    [SerializeField] private float laserFireRate = 0.2f; /** The firing rate of the laser. */
+    [SerializeField] private KeyCode laserKey = KeyCode.Mouse1; /** The key code for firing the laser. */
 
-    private S_ObjectPool laserPool;
-    [SerializeField]
-    private int laserPoolsize = 30;
+    private S_ObjectPool laserPool; /** The object pool for lasers. */
+    [SerializeField] private int laserPoolsize = 30; /** The size of the laser object pool. */
 
     [Header("Missile")]
-    [SerializeField]
-    private GameObject missile;
-    [SerializeField]
-    private Vector2 missileSpeed = new Vector2(0f, 0.5f);
-    [SerializeField]
-    private Vector3 spawnOffsetMissile;
-    [SerializeField]
-    private KeyCode missileKey = KeyCode.Mouse1;
+    [SerializeField] private GameObject missile; /** The missile prefab. */
+    [SerializeField] private Vector2 missileSpeed = new Vector2(0f, 0.5f); /** The speed of the missile. */
+    [SerializeField] private Vector3 spawnOffsetMissile; /** The offset for spawning the missile. */
+    [SerializeField] private KeyCode missileKey = KeyCode.Mouse1; /** The key code for firing the missile. */
 
-    private S_ObjectPool missilePool;
-    [SerializeField]
-    private int missilePoolsize = 30;
+    private S_ObjectPool missilePool; /** The object pool for missiles. */
+    [SerializeField] private int missilePoolsize = 30; /** The size of the missile object pool. */
 
-    // Start is called before the first frame update
+    /**
+     * Start is called before the first frame update.
+     */
     void Start()
     {
         
@@ -60,15 +52,26 @@ public class S_PlayerController : MonoBehaviour
         laserPool = new S_ObjectPool(laser, laserPoolsize, "PlayerLaserPool");
         missilePool = new S_ObjectPool(missile, missilePoolsize, "PlayerMissilePool"); 
     }
+
+    /**
+     * Release the laser back to the object pool.
+     */
     public void ReleaseLaser(GameObject laser)
     {
         laserPool.ReturnInstance(laser);
     }
+
+    /**
+     * Release the missile back to the object pool.
+     */
     public void ReleaseMissile(GameObject missile)
     {
         missilePool.ReturnInstance(missile);
     }
 
+    /**
+     * Fire the laser.
+     */
     private void Fire()
     {
         if (S_GameStatsManager.Instance.CheckIfCanShootLaser(1))
@@ -80,6 +83,9 @@ public class S_PlayerController : MonoBehaviour
         }
     }
 
+    /**
+     * Fire the missile.
+     */
     private void MissileFire()
     {
         if (S_GameStatsManager.Instance.CheckIfCanShootMissiles(1))
@@ -91,7 +97,9 @@ public class S_PlayerController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /**
+     * Update is called once per frame.
+     */
     void Update()
     {
         Instance = this;

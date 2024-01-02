@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/**
+ * Manages game over and win conditions.
+ */
 public class S_GameOverManager : MonoBehaviour
 {
-    [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem;
-    [SerializeField] private AudioClip winSound;
-    private AudioSource audioSource;
-    private bool isGameWin = false;
+    [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem; /** References to game objects for gameplay, game over, and game win. */
+    [SerializeField] private AudioClip winSound; /** The sound played upon winning. */
+    private AudioSource audioSource;  /** The audio source component for playing sounds. */
+    private bool isGameWin = false; /** Flag indicating whether the game has been won. */
 
-    // Start is called before the first frame update
+    /**
+     * Start is called before the first frame update.
+     */
     void Start()
     {
         isGameWin = false;
@@ -21,6 +26,10 @@ public class S_GameOverManager : MonoBehaviour
         if (gameWin != null)
             gameWin.SetActive(false);
     }
+
+    /**
+     * Activates the game over screen.
+     */
     public void GameOver()
     {
         if (isGameWin == true)
@@ -29,10 +38,11 @@ public class S_GameOverManager : MonoBehaviour
             gamePlay.SetActive(false);
         if (gameOver != null)
             gameOver.SetActive(true);
-
-        // Time.timeScale = 0f;
     }
 
+    /**
+     * Activates the game win screen.
+     */
     public void GameWin()
     {
         isGameWin = true;
@@ -45,33 +55,36 @@ public class S_GameOverManager : MonoBehaviour
 
     }
 
+    /**
+     * Reloads the current scene.
+     */
     public void Replay()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    /**
+     * Loads the scene with the specified index.
+     * @param index The index of the scene to be loaded.
+     */
     public void LoadScene(int index)
     {
-        SceneManager.LoadScene(index); //tutaj skrypt do prze³adowania sceny :)
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SceneManager.LoadScene(index); 
     }
 
+    /**
+     * Spawns confetti particles and plays the win sound.
+     */
     private void WinConfetti()
     {
         if (winParticleSystem == null)
             return;
 
-        // Ustaw pozycjê na œrodek ekranu
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 3f, 0f);
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
         GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
 
-
-        // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
         explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         Destroy(explosion, 4f);
         if (audioSource != null && winSound != null)

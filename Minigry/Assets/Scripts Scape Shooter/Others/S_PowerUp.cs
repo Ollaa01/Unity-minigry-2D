@@ -2,26 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Represents a power-up in the game, which can be of different types (Projectile or Health).
+ * Spawns at a random position and grants benefits to the player upon collision.
+ */
 public class S_PowerUp : MonoBehaviour
 {
+    /**
+     * Represents the types of power-ups that can be spawned in the game.
+     * - Projectile: Increases the number of projectiles or missiles available to the player.
+     * - Health: Restores the player's health.
+     */
     public enum PowerUpType
     {
         Projectile, Health
     }
-    [SerializeField] private PowerUpType powerUpType;
-    [SerializeField] private int numToGive = 10;
+    [SerializeField] private PowerUpType powerUpType; /** Type of the power-up. */
+    [SerializeField] private int numToGive = 10; /** Amount to give (missiles or health). */
 
+    /**
+     * Start is called before the first frame update.
+     */
     private void Start()
     {
-        Debug.Log("powerSpawn");
         transform.position = new Vector2(Random.Range(-7f, 7f), 4.4f);
-        //.position = new Vector2(1f, 1f);
     }
+
+    /**
+     * OnTriggerEnter2D is called when the Collider2D other enters the trigger.
+     */
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<S_PlayerController>() != null) 
         {
-            Debug.Log("tu");
 
             if (powerUpType == PowerUpType.Projectile)
             {

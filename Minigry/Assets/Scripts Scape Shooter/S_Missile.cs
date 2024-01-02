@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Handles the behavior of a missile projectile in the game.
+ */
 public class S_Missile : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject explosionEffect;
-    [SerializeField]
-    private float explosionEffectLength = 10f;
-    [SerializeField]
-    private float timeToDestroy = 1f;
-    private bool collided = false;
-    [SerializeField] private int damage = 100;
-    private float timer = 0f;
+    [SerializeField] private GameObject explosionEffect; /** The explosion effect to be instantiated upon collision. */
+    [SerializeField] private float explosionEffectLength = 10f; /** The duration of the explosion effect. */
+    [SerializeField] private float timeToDestroy = 1f; /** The time it takes for the missile to self-destruct. */
+    private bool collided = false; /** Flag indicating whether the missile has collided with an object. */
+    [SerializeField] private int damage = 100; /** The amount of damage the missile inflicts. */
+    private float timer = 0f; /** Timer to track the time since the missile was instantiated. */
+
+    /**
+     * Called when the missile collides with another 2D collider.
+     * @param collision The collision data.
+     */
     private void OnCollisionEnter2D(Collision2D collision)
     {
         collided = true;
@@ -25,13 +30,10 @@ public class S_Missile : MonoBehaviour
             collision.gameObject.GetComponent<S_HealthManager>().DecreaseHealth(damage);
         S_PlayerController.Instance.ReleaseMissile(gameObject);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
+    /**
+     * Called once per frame to update the state of the missile.
+     */
     void Update()
     {
             timer += Time.deltaTime;

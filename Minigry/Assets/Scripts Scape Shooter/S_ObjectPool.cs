@@ -1,16 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
-
+/**
+ * Manages an object pool for a specific prefab.
+ */
 public class S_ObjectPool
 {
 
-    private GameObject prefab;
+    private GameObject prefab; /** The prefab to be used for creating instances in the pool. */
+    private List<GameObject> pool; /** The list containing instances of the prefab. */
+    private GameObject poolParent; /** The parent object that holds all instances in the hierarchy. */
 
-    private List<GameObject> pool;
-
-    private GameObject poolParent;
+    /**
+     * Constructor for S_ObjectPool.
+     * @param prefab The prefab used to create instances in the pool.
+     * @param initialSize The initial size of the object pool.
+     * @param poolParentName The name of the parent object in the hierarchy.
+     */
     public S_ObjectPool(GameObject prefab, int initialSize, string poolParentName)
     {
         this.prefab = prefab;
@@ -24,6 +30,11 @@ public class S_ObjectPool
         }
     }
 
+    /**
+     * Retrieves an inactive instance from the object pool.
+     * If the pool is empty, a new instance is allocated.
+     * @return The retrieved or newly allocated instance.
+     */
     public GameObject GetInstance()
     {
         if (pool.Count == 0)
@@ -39,12 +50,20 @@ public class S_ObjectPool
         return instance;
     }
 
+    /**
+     * Returns an instance to the object pool, deactivating it.
+     * @param instance The instance to be returned to the pool.
+     */
     public void ReturnInstance(GameObject instance)
     {
         instance.SetActive(false);
         pool.Add(instance);
     }
 
+    /**
+     * Allocates a new instance of the prefab and adds it to the pool.
+     * @return The newly allocated instance.
+     */
     protected virtual GameObject AllocateInstance()
     {
         if (poolParent == null)

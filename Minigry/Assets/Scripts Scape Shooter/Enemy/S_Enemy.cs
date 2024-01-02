@@ -2,33 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Represents an enemy in the game.
+ */
 public class S_Enemy : MonoBehaviour
 {
-    [SerializeField] private GameObject projectileToSpawn;
-    [SerializeField] private float fireRate = 0.3f;
-    [SerializeField] private Vector2 projectileSpawnOffSet = new Vector2(0f, -0.5f);
-    [SerializeField] private Vector2 projectileSpeed = new Vector2(0f, -0.2f);
-    [SerializeField] private bool move = true;
-    [SerializeField] private int scoreToIncrease = 10;
-    
+    [SerializeField] private GameObject projectileToSpawn; /** The projectile to be spawned by the enemy. */
+    [SerializeField] private float fireRate = 0.3f; /** The rate at which the enemy fires projectiles. */
+    [SerializeField] private Vector2 projectileSpawnOffSet = new Vector2(0f, -0.5f); /** The offset for spawning projectiles relative to the enemy's position. */
+    [SerializeField] private Vector2 projectileSpeed = new Vector2(0f, -0.2f);  /** The speed at which projectiles travel. */
+    [SerializeField] private bool move = true; /** Flag indicating whether the enemy should move. */
+    [SerializeField] private int scoreToIncrease = 10; /** The score to increase when the enemy is defeated. */
+    public bool isBoss = false; /** Flag indicating whether the enemy is a boss. */
+    public int ScoreToIncrease { get { return scoreToIncrease; } } /** Property to get the score to increase. */
 
-    public bool isBoss = false;
-    public int ScoreToIncrease { get { return scoreToIncrease; } }
+    /**
+    * Enumeration representing the types of enemies.
+    */
     public enum EnemyType
     {
         Individual, Wave
     }
 
-    [SerializeField] public EnemyType enemyType;
-    private float minHeight = 0f, maxHeight = 0f;
-    private float minWidth = 0f, maxWidth = 0f;
-    float startHeight = 5.0f;
-    private Vector2 minW, maxW;
-    private Vector2 startH;
-    private Vector2 vel1, vel2;
-    [SerializeField] private  float smoothTime = 1f;
-    private float maxSpeed = 10f;
+    [SerializeField] public EnemyType enemyType; /** The type of the enemy. */
+    private float minHeight = 0f, maxHeight = 0f; /** The minimum and maximum height for individual enemies. */
+    private float minWidth = 0f, maxWidth = 0f; /** The minimum and maximum width for individual enemies. */
+    float startHeight = 5.0f; /** The starting height for individual enemies. */
+    private Vector2 minW, maxW; /** The minimum and maximum position for individual enemies to move between. */
+    private Vector2 startH; /** The starting position for individual enemies. */
+    private Vector2 vel1, vel2; /** Velocity vector for smooth movement. */
+    [SerializeField] private  float smoothTime = 1f; /** The time it takes for the enemy to smoothly move between positions. */
+    private float maxSpeed = 10f; /** The maximum speed for smooth movement. */
+    private bool nearMin = false, nearMax = false, exec = false; /** Flags for tracking movement state. */
 
+
+    /**
+    * Spawns a projectile from the enemy.
+    */
     private void Fire()
     {
         Vector2 targetPos = new Vector2(transform.position.x + projectileSpawnOffSet.x, transform.position.y + projectileSpawnOffSet.y);
@@ -37,7 +47,9 @@ public class S_Enemy : MonoBehaviour
             proj.GetComponent<Rigidbody2D>().AddForce(projectileSpeed, ForceMode2D.Impulse);
     }
 
-    // Start is called before the first frame update
+    /**
+     * Called at the start of the enemy's existence.
+    */
     void Start()
     {
         smoothTime = Random.Range(0f, 1f);
@@ -49,11 +61,7 @@ public class S_Enemy : MonoBehaviour
             maxHeight = Screen.height * 0.8f;
             Vector2 minH = Camera.main.ScreenToWorldPoint(new Vector2(0f, minHeight));
             Vector2 maxH = Camera.main.ScreenToWorldPoint(new Vector2(0f, maxHeight));
-            float height = Random.Range(minH.y, maxH.y);
-            Debug.Log("xH " + maxHeight + "nH" + minHeight);
-
-            //startHeight = Screen.height * 1.2f;
-            
+            float height = Random.Range(minH.y, maxH.y);        
 
             minWidth = Screen.width * 0.2f;
             maxWidth = Screen.width * 0.8f;
@@ -62,15 +70,14 @@ public class S_Enemy : MonoBehaviour
             minW.y = height;
             maxW.y = height;
             float width = Random.Range(minW.y, maxW.y);
-            Debug.Log("xW " + maxWidth + "nW" + minWidth);
 
             transform.position = new Vector2(width, startHeight);
-            Debug.Log("width " + width + " heihght " + startHeight);
         }
     }
 
-    private bool nearMin = false, nearMax = false, exec = false;
-    // Update is called once per frame
+    /**
+    * Update is called once per frame.
+    */
     void Update()
     {
         if(enemyType == EnemyType.Individual && move)
