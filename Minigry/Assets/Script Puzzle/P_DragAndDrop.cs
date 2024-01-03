@@ -1,21 +1,28 @@
+/**
+ * P_DragAndDrop.cs
+ * Handles drag-and-drop functionality for puzzle pieces.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+/**
+ * P_DragAndDrop class.
+ * Handles drag-and-drop functionality for puzzle pieces.
+ */
 public class P_DragAndDrop : MonoBehaviour
 {
-    public GameObject SelectedPiece;
-    int OIL = 1;
-    void Start()
-    {
-          
-    }
+    public GameObject SelectedPiece; /** Reference to the currently selected puzzle piece. */
+    int OIL = 1; /** Sorting order index for the selected puzzle piece. */
 
-
+    /**
+     * Update is called once per frame. Moving selected piece.
+     */
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) //Lewy przycisk myszy
+        if (Input.GetMouseButtonDown(0)) 
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.transform.CompareTag("Puzzle")) 

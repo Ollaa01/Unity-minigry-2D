@@ -1,54 +1,66 @@
+/**
+ * MG_MGStatus.cs
+ * Manages and updates the status of mini-games.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/**
+ * MG_MGStatus class.
+ * Manages and updates the status of mini-games.
+ */
 public class MG_MGStatus : MonoBehaviour
 {
-    public Button gameButton1;
-    public Button gameButton2;
-    public Button gameButton3;
-    public Button gameButton4;
-    public Text gameText1, gameText2, gameText3, gameText4;
-    public static MG_MGStatus Instance;
+    public Button gameButton1; /** Reference to the first game button. */
+    public Button gameButton2; /** Reference to the second game button. */
+    public Button gameButton3; /** Reference to the third game button. */
+    public Button gameButton4; /** Reference to the fourth game button. */
+    public Text gameText1, gameText2, gameText3, gameText4; /** References to the texts associated with each game button. */
+    public static MG_MGStatus Instance; /** Singleton instance of MG_MGStatus. */
 
+    /**
+     * Awake is called when the script instance is being loaded.
+     */
     private void Awake()
     {
-        Instance = this;
-    }
-    private void Start()
-    {
-        // SprawdŸ, czy gry by³y ju¿ grane i ustaw dostêpnoœæ przycisków
-        UpdateGameButtons();
+        Instance = this; // Set the singleton instance
     }
 
+    /**
+     * Start is called before the first frame update.
+     */
+    private void Start()
+    {
+        UpdateGameButtons(); // Update the game buttons based on the played status
+    }
+
+    /**
+     * Updates the game buttons based on whether the games have been played.
+     */
     private void UpdateGameButtons()
     {
-        // SprawdŸ, czy gry by³y ju¿ grane i ustaw dostêpnoœæ przycisków
+        // Check if games have been played and set button availability accordingly
         bool game1Played = PlayerPrefs.HasKey("SCPlayed");
         bool game2Played = PlayerPrefs.HasKey("M3Played");
         bool game3Played = PlayerPrefs.HasKey("PuzzlePlayed");
         bool game4Played = PlayerPrefs.HasKey("SSPlayed");
 
-        /*gameButton1.interactable = !game1Played;
-        gameButton2.interactable = !game2Played;
-        gameButton3.interactable = !game3Played;
-        gameButton4.interactable = !game4Played;*/
-
-        if (game1Played) { gameText1.text = "Gra CS ju¿ zosta³a rozegrana";  }
-        if (game2Played) { gameText2.text = "Gra M3 ju¿ zosta³a rozegrana"; }
-        if (game3Played) { gameText3.text = "Gra Puzzle ju¿ zosta³a rozegrana"; }
-        if (game4Played) { gameText4.text = "Gra SS ju¿ zosta³a rozegrana"; }
-        if (game1Played) { Debug.Log("Gra CS ju¿ zosta³a rozegrana"); }
-        if (game2Played) { Debug.Log("Gra M3 ju¿ zosta³a rozegrana"); }
-        if (game3Played) { Debug.Log("Gra Puzzle ju¿ zosta³a rozegrana"); }
-        if (game4Played) { Debug.Log("Gra SS ju¿ zosta³a rozegrana"); }
+        if (game1Played) { Debug.Log("Game SC has already been played."); }
+        if (game2Played) { Debug.Log("Game M3 has already been played."); }
+        if (game3Played) { Debug.Log("Game Puzzle has already been played."); }
+        if (game4Played) { Debug.Log("Game SS has already been played."); }
     }
 
+    /**
+     * Marks a game as passed and saves the status.
+     * @param name The name of the game to mark as passed.
+     */
     public void GamePassed(string name)
     {
-        // Ustaw flagê, ¿e gra zosta³a rozegrana
         PlayerPrefs.SetInt(name, 1);
         PlayerPrefs.Save();
     }

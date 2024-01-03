@@ -1,44 +1,55 @@
+/**
+ * SC_ClickPoint.cs
+ * Handles the behavior of clickable points in the dot-connecting game.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems; // Dodaj ten namespace
+using UnityEngine.EventSystems; // Add this namespace
 
+/**
+ * SC_ClickPoint class.
+ * Handles the behavior of clickable points in the dot-connecting game.
+ */
 public class SC_ClickPoint : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
-    public Color clickedColor = Color.blue;
-    public GameObject clickEffectPrefab;
-    private GameObject currentClickEffect;
-    private GameObject clickEffect;
-    // Przechowuje aktualny efekt Particle System
+    private SpriteRenderer spriteRenderer; /** SpriteRenderer component for changing the color of the point. */
+    private Color originalColor; /** Original color of the point. */
+    public Color clickedColor = Color.blue; /** Color to change to when the point is clicked. */
+    public GameObject clickEffectPrefab; /** Prefab for the click effect. */
+    private GameObject currentClickEffect; /** Reference to the current click effect. */
+    private GameObject clickEffect; /** Reference to the click effect. */
 
+    /**
+     * Start is called before the first frame update.
+     */
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
     }
 
+    /**
+     * Changes the color of the point and adds a click effect.
+     * @param point The point to change the color.
+     */
     public void ChangePointColor(Transform point)
     {
         if (spriteRenderer != null)
         {
-            //point.GetComponent<SpriteRenderer>().color = clickedColor;
-            //spriteRenderer.color = clickedColor;
-
-
-            // Dodaj efekt Particle System w miejscu klikniêcia
             if (clickEffectPrefab != null)
             {
                 clickEffect = Instantiate(clickEffectPrefab, point.position, Quaternion.identity);
-                // Dodaj skrypt do efektu, który zniszczy go po klikniêciu innego obiektu
                 SC_ClickEffectDestroyer destroyer = clickEffect.AddComponent<SC_ClickEffectDestroyer>();
                 destroyer.Initialize(point.gameObject);
             }
         }
     }
 
-    // Nowa metoda do dezaktywacji efektu Particle System
+    /**
+     * Deactivates the click effect.
+     */
     public void DeactivateClickEffect()
     {
         if (clickEffect != null)

@@ -1,27 +1,38 @@
+/**
+ * P_TimeManager.cs
+ * Manages the time, UI, and game state for a puzzle game.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/**
+ * P_TimeManager class.
+ * Manages the time, UI, and game state for a puzzle game.
+ */
 public class P_TimeManager : MonoBehaviour
 {
-    public Text timerText; 
-    public Text gameOverText; 
-    public Text gameWinText;
-    public Button gameNextButton;
-    public Button replayButton;
-    public GameObject winParticleSystem;
-    [SerializeField] private Image uiFill;
-    [SerializeField] private Text uiText;
-    [SerializeField] private AudioClip winSound;
-    private AudioSource audioSource;
-    public float gameTime = 30f; 
-    private float timer; 
-    private bool isGameOver = false;
-    private bool wasConfettiPlayed = false;
-    //private bool GameWin = false;
+    public Text timerText;  /** Text displaying the remaining time. */
+    public Text gameOverText; /** Text displayed when the game is over. */
+    public Text gameWinText; /** Text displayed when the player wins. */
+    public Button gameNextButton; /** Button to proceed to the next scene. */
+    public Button replayButton; /** Button to replay the current scene. */
+    public GameObject winParticleSystem; /** Particle system for winning celebration. */
+    [SerializeField] private Image uiFill;  /** Image representing the time fill in UI. */
+    [SerializeField] private Text uiText; /** Text displaying the formatted time in UI. */
+    [SerializeField] private AudioClip winSound; /** Sound played when the player wins. */
+    private AudioSource audioSource; /** AudioSource for playing sounds. */
+    public float gameTime = 30f; /** Total time allowed for the puzzle. */
+    private float timer; /** Current time elapsed. */
+    private bool isGameOver = false; /** Flag indicating whether the game is over. */
+    private bool wasConfettiPlayed = false; /** Flag indicating whether confetti was already played. */
 
+    /**
+    * Awake is called when the script instance is being loaded.
+    * Set up initial UI state.
+    */
     private void Awake()
     {
         gameNextButton.gameObject.SetActive(false);
@@ -30,27 +41,28 @@ public class P_TimeManager : MonoBehaviour
         replayButton.onClick.AddListener(Replay);
         gameWinText.gameObject.SetActive(false);
         wasConfettiPlayed = false;
-        Debug.Log("Awake wykonano");
     }
+
+    /**
+     * Start is called before the first frame update.
+     * Initialize timer and UI.
+     */
     void Start()
     {
         getDifficulty();
         timer = 0f;
         UpdateTimerDisplay();
-        Debug.Log("Start wykonano");
-        /*
-        gameOverText.gameObject.SetActive(false); 
-        replayButton.gameObject.SetActive(false); 
-        replayButton.onClick.AddListener(Replay); 
-        gameWinText.gameObject.SetActive(false); */
     }
 
+    /**
+     * Update is called once per frame.
+     * Check if the player has won and update timer if the game is not over.
+     */
     void Update()
     {
         if (P_PiecesScript.CheckIfWon())
         {
             WinConfetti();
-            //gameWinText.gameObject.SetActive(true);
             gameNextButton.gameObject.SetActive(true);
             return;
         }
@@ -67,6 +79,9 @@ public class P_TimeManager : MonoBehaviour
         }
     }
 
+    /**
+     * Updates the timer display in UI.
+     */
     void UpdateTimerDisplay()
     {
         float timeLeft = gameTime - Mathf.Round(timer);
@@ -81,6 +96,9 @@ public class P_TimeManager : MonoBehaviour
         }
     }
 
+    /**
+     * Handles the game over state.
+     */
     void GameOver()
     {
         gameOverText.gameObject.SetActive(true);
@@ -88,11 +106,17 @@ public class P_TimeManager : MonoBehaviour
         isGameOver = true;
     }
 
+    /**
+     * Reloads the current scene to replay the game.
+     */
     void Replay()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /**
+    * Plays the winning confetti and sound.
+    */
     private void WinConfetti()
     {
         if (wasConfettiPlayed == false)
@@ -100,14 +124,11 @@ public class P_TimeManager : MonoBehaviour
             if (winParticleSystem == null)
                 return;
             wasConfettiPlayed = true;
-            // Ustaw pozycjê na œrodek ekranu
             Vector3 screenCenter = new Vector3((Screen.width / 2f), Screen.height / 3f, 100f);
             Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
             GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
 
-
-            // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
             explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
             Destroy(explosion, 4f);
 
@@ -118,6 +139,9 @@ public class P_TimeManager : MonoBehaviour
         }
     }
 
+    /**
+     * Retrieves the difficulty  from player preferences and sets the game time accordingly.
+     */
     private void getDifficulty()
     {
         float difficultyLevel = PlayerPrefs.GetFloat("Difficulty", 1f);

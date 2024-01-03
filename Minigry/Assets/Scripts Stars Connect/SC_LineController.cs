@@ -1,3 +1,8 @@
+/**
+ * SC_LineController.cs
+ * Handles the logic for connecting dots to form a pattern.
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,26 +10,33 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
+/**
+ * SC_LineController class.
+ * Handles the logic for connecting dots to form a pattern.
+ */
 public class SC_LineController : MonoBehaviour
 {
-    private LineRenderer lr;
-    public List<Transform> points = new List<Transform>();
-    public Transform lastPoints;
-    //public List<Transform> targetPoints = new List<Transform>();
-    public SC_Paths[] allPaths;
-    public SC_ClickPoint clickPoint;
-    private bool isPatternCompleted = false;
-    public GameObject errorTextObject;
-    public GameObject winTextObject;
-    public GameObject winParticleSystem;
-    public GameObject replayButton;
-    public GameObject starsNames;
-    public GameObject moveButton;
-    [SerializeField] private AudioClip winSound;
-    private AudioSource audioSource;
-    public string moveToScene = null;
-    private int maxCount;
+    private LineRenderer lr; /** LineRenderer component for drawing lines. */
+    public List<Transform> points = new List<Transform>(); /**List of selected points to form a line. */
+    public Transform lastPoints; /** Last selected point. */
+    public SC_Paths[] allPaths; /** Array of predefined paths to match. */
+    public SC_ClickPoint clickPoint; /** Reference to the point-clicking logic script. */
+    private bool isPatternCompleted = false; /** Flag indicating whether the pattern is completed. */
+    public GameObject errorTextObject; /** Error text displayed when the pattern is not completed. */
+    public GameObject winTextObject; /** Win text displayed when the pattern is completed. */
+    public GameObject winParticleSystem; /** Particle system for winning celebration. */
+    public GameObject replayButton; /** Replay button. */
+    public GameObject starsNames; /** Names of stars displayed when the pattern is completed. */
+    public GameObject moveButton; /** Move to the next scene button. */
+    [SerializeField] private AudioClip winSound; /** Sound played when the pattern is completed. */
+    [SerializeField] private AudioClip clickSound; /** Sound played when a point is clicked. */
+    private AudioSource audioSource; /** AudioSource component for playing sounds. */
+    public string moveToScene = null; /** Name of the scene to move to. */
+    private int maxCount; /** Maximum count of paths among all predefined paths. */
 
+    /**
+     * Start is called before the first frame update.
+     */
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -32,34 +44,38 @@ public class SC_LineController : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
         winTextObject.SetActive(false);
         errorTextObject.SetActive(false);
         replayButton.SetActive(true);
         starsNames.SetActive(false);
         moveButton.SetActive(false);
         maxCount = MaxCountOfPaths(allPaths);
-        Debug.Log(maxCount);
-        Debug.Log(allPaths.Count());
-        // Dodaj sprawdzenie, czy winParticleSystem zosta³ przypisany
-        if (winParticleSystem == null)
-        {
-            Debug.LogError("ParticleSystem is not assigned to winParticleSystem in the inspector!");
-        }
     }
 
+    /**
+     * Awake is called when the script instance is being loaded.
+     */
     private void Awake()
     {
         lr = GetComponent<LineRenderer>();
     }
 
+    /**
+     * Draws a line between points based on the user's input.
+     * @param finalPoint The point to connect with the last selected point.
+     */
     private void makeLine(Transform finalPoint)
     {
-
         if (lastPoints == null)
         {
             lastPoints = finalPoint;
             points.Add(lastPoints);
             clickPoint.ChangePointColor(lastPoints);
+            if (audioSource != null && clickSound != null)
+            {
+                audioSource.PlayOneShot(clickSound);
+            }
         }
         else
         {
@@ -69,13 +85,17 @@ public class SC_LineController : MonoBehaviour
                 lr.enabled = true;
                 SetupLine();
                 clickPoint.ChangePointColor(finalPoint);
+                if (audioSource != null && clickSound != null)
+                {
+                    audioSource.PlayOneShot(clickSound);
+                }
             }
-
         }
-
-
     }
 
+    /**
+     * Sets up the LineRenderer component to draw the line between points.
+     */
     private void SetupLine()
     {
         int pointLength = points.Count;
@@ -86,6 +106,9 @@ public class SC_LineController : MonoBehaviour
         }
     }
 
+    /**
+     * Update is called once per frame.
+     */
     void Update()
     {
         if (!isPatternCompleted && Input.GetMouseButtonDown(0))
@@ -109,20 +132,12 @@ public class SC_LineController : MonoBehaviour
                         break;
                     }
                 }
-                foreach (Transform point in allPaths[1].paths)
-                {
-                    Debug.Log("T " + point.name);
-                }
-                foreach (Transform point in points)
-                {
-                    Debug.Log("P " + point.name);
-                }
                 if (anyPathEqual)
                 {
                     isPatternCompleted = true;
                     WinConfetti();
                     clickPoint.DeactivateClickEffect();
-                    //winTextObject.SetActive(true);
+                    winTextObject.SetActive(true);
                     starsNames.SetActive(true);
                     moveButton.SetActive(true);
                     MG_MGStatus.Instance.GamePassed("SCPlayed");
@@ -131,24 +146,33 @@ public class SC_LineController : MonoBehaviour
                 {
                     isPatternCompleted = true;
                     errorTextObject.SetActive(true);
-
                 }
-
             }
         }
     }
+
+    /**
+     * Moves to the next scene when called.
+     */
     public void MoveNext()
     {
-        if (moveToScene != null)  SceneManager.LoadScene(moveToScene);
+        if (moveToScene != null) SceneManager.LoadScene(moveToScene);
     }
 
+    /**
+     * Reloads the current scene to replay the pattern.
+     */
     public void Replay()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
 
-    public int MaxCountOfPaths (SC_Paths[] all)
+    /**
+     * Calculates the maximum count of paths among all predefined paths.
+     * @param all Array of predefined paths.
+     * @return The maximum count of paths.
+     */
+    public int MaxCountOfPaths(SC_Paths[] all)
     {
         int max = 0;
 
@@ -164,25 +188,26 @@ public class SC_LineController : MonoBehaviour
 
         return max;
     }
+
+    /**
+     * Plays the winning confetti and sound.
+     */
     private void WinConfetti()
     {
         if (winParticleSystem == null)
             return;
 
-        // Ustaw pozycjê na œrodek ekranu
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 3f, 0f);
         Vector3 worldCenter = Camera.main.ScreenToWorldPoint(screenCenter);
 
         GameObject explosion = Instantiate(winParticleSystem, worldCenter, Quaternion.identity);
 
-
-        // Zmiana rotacji obiektu na -90 stopni wzd³u¿ osi X
         explosion.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         Destroy(explosion, 4f);
+
         if (audioSource != null && winSound != null)
         {
             audioSource.PlayOneShot(winSound);
         }
-
     }
 }

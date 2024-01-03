@@ -1,87 +1,92 @@
+/**
+ * MG_OptionsMenu.cs
+ * Manages the options menu settings such as volume and difficulty.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * MG_OptionsMenu class.
+ * Manages the options menu settings such as volume and difficulty.
+ */
 public class MG_OptionsMenu : MonoBehaviour
 {
-    public Slider volumeSlider;
-    public Button easyButton;
-    public Button mediumButton;
-    public Button hardButton;
+    public Slider volumeSlider; /** Reference to the volume slider in the options menu. */
+    public Button easyButton; /** Reference to the "Easy" difficulty button. */
+    public Button mediumButton; /** Reference to the "Medium" difficulty button. */
+    public Button hardButton; /** Reference to the "Hard" difficulty button. */
 
+    /**
+     * Start is called before the first frame update.
+     */
     private void Start()
     {
-        // Ustaw wartoœci pocz¹tkowe na podstawie PlayerPrefs
-        //volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
+        volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
         SetDifficulty(PlayerPrefs.GetFloat("Difficulty", 2f));
-
-
     }
 
+    /**
+     * Saves the current options settings to PlayerPrefs.
+     */
     public void SaveOptions()
     {
-        // Zapisz ustawienia do PlayerPrefs
-        //PlayerPrefs.SetFloat("Volume", volumeSlider.value);
-        //PlayerPrefs.SetFloat("Difficulty", GetDifficulty());
-
-        // SprawdŸ wartoœæ poziomu trudnoœci
+        PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         float difficultyLevel = PlayerPrefs.GetFloat("Difficulty", 1f);
-        Debug.Log("Aktualny poziom trudnoœci: " + difficultyLevel);
+        Debug.Log("Current difficulty level: " + difficultyLevel);
     }
 
-    // Metoda wywo³ywana po zmianie g³oœnoœci
+    /**
+     * Called when the volume slider value changes.
+     * @param volume The new volume value.
+     */
     public void OnVolumeChanged(float volume)
     {
-        // Zastosuj zmiany w g³oœnoœci
         ApplyVolume(volume);
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
 
+    /**
+     * Applies the volume changes.
+     * @param volume The new volume value.
+     */
     private void ApplyVolume(float volume)
     {
-        // Zastosuj zmiany w g³oœnoœci dla bie¿¹cej sceny
         AudioListener.volume = volume;
     }
 
-
-    // Metoda wywo³ywana po klikniêciu przycisku "£atwy"
+    /**
+     * Called when the "Easy" button is clicked.
+     */
     public void OnEasyButtonClicked()
     {
         SetDifficulty(1f);
     }
 
-    // Metoda wywo³ywana po klikniêciu przycisku "Œredni"
+    /**
+     * Called when the "Medium" button is clicked.
+     */
     public void OnMediumButtonClicked()
     {
         SetDifficulty(2f);
     }
 
-    // Metoda wywo³ywana po klikniêciu przycisku "Trudny"
+    /**
+     * Called when the "Hard" button is clicked.
+     */
     public void OnHardButtonClicked()
     {
         SetDifficulty(3f);
     }
 
+    /**
+     * Sets the difficulty level.
+     * @param difficulty The new difficulty level.
+     */
     private void SetDifficulty(float difficulty)
     {
-        // Zastosuj zmiany w poziomie trudnoœci
-        Debug.Log("Difficulty changed to: " + difficulty);
-        // Dodaj odpowiednie akcje, które maj¹ byæ wykonane po zmianie trudnoœci
         PlayerPrefs.SetFloat("Difficulty", difficulty);
-    }
-
-    private float GetDifficulty()
-    {
-        // Zwróæ aktualny poziom trudnoœci
-        if (easyButton.interactable) return 1f;
-        if (mediumButton.interactable) return 2f;
-        if (hardButton.interactable) return 3f;
-
-        return 2f; // Domyœlna wartoœæ
-    }
-
-    public void Update()
-    {
     }
 }
