@@ -1078,6 +1078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1631435763}
+  volumeMultiplier: 0.3
 --- !u!82 &1631435763
 AudioSource:
   m_ObjectHideFlags: 0

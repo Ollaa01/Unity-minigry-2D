@@ -16,7 +16,7 @@ public class MG_AudioManager : MonoBehaviour
 {
     public static MG_AudioManager instance; /** Singleton instance of the audio manager. */
     public AudioSource musicSource; /** AudioSource for playing music. */
-
+    [SerializeField] private float volumeMultiplier = 1f; /** Value to adjust manually volume level. */
     /**
      * Awake is called when the script instance is being loaded.
      */
@@ -70,6 +70,9 @@ public class MG_AudioManager : MonoBehaviour
     private void GetVolume()
     {
         float volumeLevel = PlayerPrefs.GetFloat("Volume", 1f);
-        AudioListener.volume = volumeLevel;
+        Debug.Log(volumeLevel);
+        float newVolume = Mathf.Clamp01(volumeLevel * volumeMultiplier);
+        Debug.Log(newVolume);
+        AudioListener.volume = newVolume;
     }
 }

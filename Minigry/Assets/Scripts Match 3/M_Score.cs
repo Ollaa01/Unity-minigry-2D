@@ -32,7 +32,7 @@ public class M_Score : MonoBehaviour
         {
             if (_score == value) return;
             _score = value;
-            scoreText.text = "Wynik: " + _score;
+            //scoreText.text = "Wynik: " + _score;
             if (uiFill != null)
             uiFill.fillAmount = Mathf.InverseLerp(0, ScoreToBeat, _score);
             if (_score >= ScoreToBeat)
@@ -56,8 +56,8 @@ public class M_Score : MonoBehaviour
         gameWinText.gameObject.SetActive(false);
         if (scoreToBeatText != null)
         {
-            scoreToBeatText.text = "Wynik do pokonania: " + ScoreToBeat;
-            scoreToBeatText.gameObject.SetActive(true);
+            //scoreToBeatText.text = "Wynik do pokonania: " + ScoreToBeat;
+            //scoreToBeatText.gameObject.SetActive(true);
         }
     }
 
