@@ -49,6 +49,11 @@ public class P_TimeManager : MonoBehaviour
      */
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         getDifficulty();
         timer = 0f;
         UpdateTimerDisplay();

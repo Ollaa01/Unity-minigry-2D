@@ -21,5 +21,6 @@ public class MG_ResetPlayerPrefs : MonoBehaviour
         PlayerPrefs.DeleteAll(); 
         PlayerPrefs.Save(); 
         Debug.Log("PlayerPrefs reset.");
+        PlayerPrefs.SetFloat("Difficulty", 2f);
     }
 }

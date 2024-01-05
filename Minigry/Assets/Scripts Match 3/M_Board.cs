@@ -41,6 +41,13 @@ public class M_Board : MonoBehaviour
     public Text noMoves;  /** The text displaying a message when there are no possible moves. */
     private int consecutiveMatches = 0; /** The count of consecutive matches for triggering special effects. */
     private int comboCount = 0; /** The count of tiles matched in a single combo. */
+    [SerializeField] private float timeRemainingSet = 10f; /** Variable holding the number of seconds until the hint is displayed. */
+    private bool isTimerRunning = true; /** Flag representing if the time is running. */
+    private float timeRemaining = 0f; /** Variable holding the number of seconds until the hint is displayed. */
+    public GameObject hintParticles; /** The particle system prefab for hint effects. */
+    private GameObject hint1; /** Reference to the first hint particle effect. */
+    private GameObject hint2; /** Reference to the second hint particle effect. */
+    private bool hintState = false; /** Flag indicating whether hint particles are currently active. */
 
     /**
      * The awake method to set up the singleton instance.
@@ -72,6 +79,7 @@ public class M_Board : MonoBehaviour
         {
             ShuffleBoard();
         }
+        timeRemaining = timeRemainingSet;
     }
     /**
      * The update method to check for possible moves and trigger shuffling.
@@ -90,17 +98,16 @@ public class M_Board : MonoBehaviour
             noMoves.gameObject.SetActive(false);
             isWaiting = false;
         }
-        
+        if (isTimerRunning)
+        {
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining <= 0f)
+            {
+                isTimerRunning = false;
+                ShowHint();
+            }
+        }
 
-    }
-    /**
-     * Coroutine to shuffle the board after a delay.
-     */
-    IEnumerator ShuffleAfterDelay()
-    {
-        yield return new WaitForSeconds(5f);
-
-        ShuffleBoard();
     }
 
     /**
@@ -136,7 +143,6 @@ public class M_Board : MonoBehaviour
         if (_selection.Count < 2) return;
         if (_selection.Count >= 2)
         {
-            Debug.Log($"Wybrane kafelki: {_selection[0].x}, {_selection[0].y} i {_selection[1].x}, {_selection[1].y}");
             isSwapping = true;
             await Swap(_selection[0], _selection[1]);
             isSwapping = false;
@@ -270,6 +276,9 @@ public class M_Board : MonoBehaviour
                 comboCount = 0;
 
                 SimpleHitBoss();
+                ResetTimer();
+                if (hintState == true)
+                    DestroyHint();
                 
             }
         }
@@ -451,8 +460,110 @@ public class M_Board : MonoBehaviour
 
         if (CanPop())
         {
-            Debug.Log("shuffled with pair!");
             ShuffleBoard();
+        }
+
+        ResetTimer();
+    }
+
+    /**
+     * Destroys the hint particle effects if they are active.
+     */
+    private void DestroyHint()
+    {
+        if (hint1 != null)
+            Destroy(hint1);
+        if (hint2 != null)
+            Destroy(hint2);
+        hintState = false;
+    }
+
+    /**
+     * Resets the timer for the game.
+     */
+    private void ResetTimer()
+    {
+        timeRemaining = timeRemainingSet;
+        isTimerRunning = true;
+    }
+
+    /**
+     * Highlights and shows hint particles for potential moves on the board.
+     * @param tile1 The first tile involved in the potential move.
+     * @param tile2 The second tile involved in the potential move.
+     */
+    private void HighlightTiles(M_Tile tile1, M_Tile tile2)
+    {
+        Debug.Log("Podœwietlono " + tile1.x + " " + tile1.y + " , " + tile2.x + " " + tile2.y);
+
+        if (hintParticles != null)
+        {
+            hint1 = Instantiate(hintParticles, tile1.transform.position, Quaternion.identity);
+            hint2 = Instantiate(hintParticles, tile2.transform.position, Quaternion.identity);
+            hintState = true;
+        }
+
+    }
+
+    /**
+    * Method to show a hint by highlighting a pair of tiles that can be swapped for a match.
+    */
+    private void ShowHint()
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                M_Tile currentTile = tiles[x, y];
+
+                if (x < Width - 1)
+                {
+                    SwapTiles(currentTile, tiles[x + 1, y]);
+                    if (CanPop())
+                    {
+                        SwapTiles(currentTile, tiles[x + 1, y]);
+                        HighlightTiles(currentTile, tiles[x + 1, y]);
+                        return;
+                    }
+                    SwapTiles(currentTile, tiles[x + 1, y]);
+                }
+
+                if (y < Height - 1)
+                {
+                    SwapTiles(currentTile, tiles[x, y + 1]);
+                    if (CanPop())
+                    {
+                        SwapTiles(currentTile, tiles[x, y + 1]);
+                        HighlightTiles(currentTile, tiles[x, y + 1]);
+                        return;
+                    }
+                    SwapTiles(currentTile, tiles[x, y + 1]);
+                }
+
+                if (x > 0)
+                {
+                    SwapTiles(currentTile, tiles[x - 1, y]);
+                    if (CanPop())
+                    {
+                        SwapTiles(currentTile, tiles[x - 1, y]);
+                        HighlightTiles(currentTile, tiles[x - 1, y]);
+                        return;
+                    }
+                    SwapTiles(currentTile, tiles[x - 1, y]);
+                }
+
+                if (y > 0)
+                {
+                    SwapTiles(currentTile, tiles[x, y - 1]);
+                    if (CanPop())
+                    {
+                        SwapTiles(currentTile, tiles[x, y - 1]);
+                        HighlightTiles(currentTile, tiles[x, y - 1]);
+                        return;
+                    }
+                    SwapTiles(currentTile, tiles[x, y - 1]);
+                }
+            }
         }
     }
 }

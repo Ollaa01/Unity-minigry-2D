@@ -27,7 +27,7 @@ public class MG_MGStatus : MonoBehaviour
      */
     private void Awake()
     {
-        Instance = this; // Set the singleton instance
+        Instance = this; 
     }
 
     /**
@@ -35,7 +35,11 @@ public class MG_MGStatus : MonoBehaviour
      */
     private void Start()
     {
-        UpdateGameButtons(); // Update the game buttons based on the played status
+        if (!PlayerPrefs.HasKey("Difficulty"))
+        {
+            PlayerPrefs.SetFloat("Difficulty", 2f);
+        }
+        UpdateGameButtons(); 
     }
 
     /**
@@ -43,7 +47,6 @@ public class MG_MGStatus : MonoBehaviour
      */
     private void UpdateGameButtons()
     {
-        // Check if games have been played and set button availability accordingly
         bool game1Played = PlayerPrefs.HasKey("SCPlayed");
         bool game2Played = PlayerPrefs.HasKey("M3Played");
         bool game3Played = PlayerPrefs.HasKey("PuzzlePlayed");

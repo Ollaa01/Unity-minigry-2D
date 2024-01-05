@@ -132,8 +132,8 @@ public class S_GameStatsManager : MonoBehaviour
     void Update()
     {
         if (lasersText != null)
-            lasersText.text = "Lasers: " + numOfLasers.ToString();
+            lasersText.text = "Lasery: " + numOfLasers.ToString();
         if (missilesText != null)
-            missilesText.text = "Missiles: " + numOfMissiles.ToString();
+            missilesText.text = "Torpedy: " + numOfMissiles.ToString();
     }
 }

@@ -24,8 +24,11 @@ public class MG_OptionsMenu : MonoBehaviour
      */
     private void Start()
     {
+        if (!PlayerPrefs.HasKey("Difficulty"))
+        {
+            SetDifficulty(2f); 
+        }
         volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
-        SetDifficulty(PlayerPrefs.GetFloat("Difficulty", 2f));
     }
 
     /**

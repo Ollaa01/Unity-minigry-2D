@@ -79,15 +79,18 @@ public class SC_LineController : MonoBehaviour
         }
         else
         {
-            if (points[points.Count - 1].name != finalPoint.name)
+            if (points.Count < 2 || finalPoint != points[points.Count - 2])
             {
-                points.Add(finalPoint);
-                lr.enabled = true;
-                SetupLine();
-                clickPoint.ChangePointColor(finalPoint);
-                if (audioSource != null && clickSound != null)
+                if (points[points.Count - 1].name != finalPoint.name)
                 {
-                    audioSource.PlayOneShot(clickSound);
+                    points.Add(finalPoint);
+                    lr.enabled = true;
+                    SetupLine();
+                    clickPoint.ChangePointColor(finalPoint);
+                    if (audioSource != null && clickSound != null)
+                    {
+                        audioSource.PlayOneShot(clickSound);
+                    }
                 }
             }
         }

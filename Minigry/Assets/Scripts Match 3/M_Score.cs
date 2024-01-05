@@ -106,11 +106,11 @@ public class M_Score : MonoBehaviour
         }
         if (difficultyLevel == 2f)
         {
-            ScoreToBeat = 10000;
+            ScoreToBeat = 5000;
         }
         if (difficultyLevel == 3f)
         {
-            ScoreToBeat = 25000;
+            ScoreToBeat = 10000;
         }
     }
 }

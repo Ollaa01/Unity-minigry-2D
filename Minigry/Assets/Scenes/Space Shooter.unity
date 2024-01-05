@@ -980,6 +980,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428319290}
   m_CullTransparentMesh: 1
+--- !u!1 &639253231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2059600103634319141, guid: 0f3a97587889e02478fa3d84e7dd6617, type: 3}
+  m_PrefabInstance: {fileID: 2059600104067360482}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &849129335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +1983,9 @@ MonoBehaviour:
   gameOver: {fileID: 405346208}
   gameWin: {fileID: 1788409711}
   winParticleSystem: {fileID: 5679152367726286238, guid: 286b56d7df9145144837c640aa82d47c, type: 3}
+  gameShip: {fileID: 639253231}
+  gameEnemySpawner: {fileID: 1210296560}
+  gamePowerup: {fileID: 1951877479}
   winSound: {fileID: 8300000, guid: 2e985fc27fc295343b5a57399538a132, type: 3}
 --- !u!4 &1523199528
 Transform:

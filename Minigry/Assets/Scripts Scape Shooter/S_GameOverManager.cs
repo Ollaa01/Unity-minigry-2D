@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
  */
 public class S_GameOverManager : MonoBehaviour
 {
-    [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem; /** References to game objects for gameplay, game over, and game win. */
+    [SerializeField] GameObject gamePlay, gameOver, gameWin, winParticleSystem, gameShip, gameEnemySpawner, gamePowerup; /** References to game objects for gameplay, game over, and game win. */
     [SerializeField] private AudioClip winSound; /** The sound played upon winning. */
     private AudioSource audioSource;  /** The audio source component for playing sounds. */
     private bool isGameWin = false; /** Flag indicating whether the game has been won. */
@@ -18,6 +18,11 @@ public class S_GameOverManager : MonoBehaviour
      */
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         isGameWin = false;
         if (gamePlay != null)
             gamePlay.SetActive(true);
@@ -25,6 +30,12 @@ public class S_GameOverManager : MonoBehaviour
             gameOver.SetActive(false);
         if (gameWin != null)
             gameWin.SetActive(false);
+        if (gameShip != null)
+            gameShip.SetActive(true);
+        if (gameEnemySpawner != null)
+            gameEnemySpawner.SetActive(true);
+        if (gamePowerup != null)
+            gamePowerup.SetActive(true);
     }
 
     /**
@@ -38,6 +49,13 @@ public class S_GameOverManager : MonoBehaviour
             gamePlay.SetActive(false);
         if (gameOver != null)
             gameOver.SetActive(true);
+        if (gameShip != null)
+            gameShip.SetActive(false);
+        if (gameEnemySpawner != null)
+            gameEnemySpawner.SetActive(false);
+        if (gamePowerup != null)
+            gamePowerup.SetActive(false);
+        DestroyEnemiesAndLasersandPlayer();
     }
 
     /**
@@ -46,11 +64,18 @@ public class S_GameOverManager : MonoBehaviour
     public void GameWin()
     {
         isGameWin = true;
+        DestroyEnemiesAndLasersandPlayer();
         WinConfetti();
         if (gamePlay != null)
             gamePlay.SetActive(false);
         if (gameWin != null)
             gameWin.SetActive(true);
+        if (gameShip != null)
+            gameShip.SetActive(false);
+        if (gameEnemySpawner != null)
+            gameEnemySpawner.SetActive(false);
+        if (gamePowerup != null)
+            gamePowerup.SetActive(false);
         MG_MGStatus.Instance.GamePassed("SSPlayed");
 
     }
@@ -90,6 +115,30 @@ public class S_GameOverManager : MonoBehaviour
         if (audioSource != null && winSound != null)
         {
             audioSource.PlayOneShot(winSound);
+        }
+    }
+
+    /**
+     * Destroy all objects of type Enemies and Lasers  and Player on the scene.
+     */
+    private void DestroyEnemiesAndLasersandPlayer()
+    {
+        S_Enemy[] enemies = GameObject.FindObjectsOfType<S_Enemy>();
+        foreach (S_Enemy enemy in enemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+
+        S_Laser[] lasers = GameObject.FindObjectsOfType<S_Laser>();
+        foreach (S_Laser laser in lasers)
+        {
+            Destroy(laser.gameObject);
+        }
+
+        S_HealthManager[] objectsInGame = GameObject.FindObjectsOfType<S_HealthManager>();
+        foreach (S_HealthManager oiG in objectsInGame)
+        {
+            Destroy(oiG.gameObject);
         }
     }
 }

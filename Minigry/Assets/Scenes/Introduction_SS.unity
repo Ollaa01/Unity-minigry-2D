@@ -774,9 +774,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "W tej grze twoim zadaniem jest sterowanie statkiem kosmicznym. Sterujesz
     statkiem lewym przyciskiem myszy. Aby wystrzeli\u0107 lasery naci\u015Bnij prawy
-    przycisk myszy - bombe naci\u015Bnij \u015Brodkowy przycisk myszy.  Zbieraj spadaj\u0105ce
-    posi\u0142ki aby zwi\u0119ksza\u0107 zdrowie i ilo\u015B\u0107 bomb.\nUnikaj
-    wrogich statk\xF3w i pokonaj kosmiczne potwory!\n\nPowodzenia!"
+    przycisk myszy - torpede naci\u015Bnij \u015Brodkowy przycisk myszy.  Zbieraj
+    spadaj\u0105ce posi\u0142ki aby zwi\u0119ksza\u0107 zdrowie i ilo\u015B\u0107
+    bomb. \nUnikaj wrogich statk\xF3w i pokonaj kosmiczne potwory!\n\nPowodzenia!"
 --- !u!222 &838988676
 CanvasRenderer:
   m_ObjectHideFlags: 0

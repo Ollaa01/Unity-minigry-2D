@@ -8474,6 +8474,8 @@ MonoBehaviour:
   - {fileID: 2013708158}
   - {fileID: 1895813531}
   noMoves: {fileID: 822463134}
+  timeRemainingSet: 15
+  hintParticles: {fileID: 5598922922951031158, guid: 7bdbe360421fb71469db87007976642c, type: 3}
 --- !u!82 &2109020986
 AudioSource:
   m_ObjectHideFlags: 0
