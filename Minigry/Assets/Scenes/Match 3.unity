@@ -856,7 +856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -369.99997, y: 0}
+  m_AnchoredPosition: {x: -370, y: 0}
   m_SizeDelta: {x: -760, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &820027194
@@ -8475,7 +8475,7 @@ MonoBehaviour:
   - {fileID: 1895813531}
   noMoves: {fileID: 822463134}
   timeRemainingSet: 15
-  hintParticles: {fileID: 5598922922951031158, guid: 7bdbe360421fb71469db87007976642c, type: 3}
+  hintParticles: {fileID: 5598922922951031158, guid: 667a6a0c3783d434fa72b6ec8dfe6748, type: 3}
 --- !u!82 &2109020986
 AudioSource:
   m_ObjectHideFlags: 0

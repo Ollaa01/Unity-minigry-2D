@@ -265,9 +265,9 @@ MonoBehaviour:
   m_Text: "W tej grze twoim zadaniem b\u0119dzie u\u0142o\u017Cenie puzzli w kszta\u0142t
     jednego z trzech wy\u015Bwietlanych obrazk\xF3w. Dobrze u\u0142o\u017Cony element
     staj\u0119 si\u0119 niemo\u017Cliwy do ruszenia. Poruszasz elementem przyciskaj\u0105c
-    lewy przycisk myszy. Masz na to ograniczony czas, w lewym g\xF3rnym rogu ekranu
-    znajduj\u0119 si\u0119 pozosta\u0142y czas. Pami\u0119taj aby zd\u0105\u017Cy\u0107
-    przed ko\u0144cem... \nPowodzenia!"
+    lewy przycisk myszy. Masz na to ograniczony czas, na \u015Brodku ekranu znajduj\u0119
+    si\u0119 pozosta\u0142y czas. Pami\u0119taj aby zd\u0105\u017Cy\u0107 przed ko\u0144cem...
+    \nPowodzenia!"
 --- !u!222 &263453205
 CanvasRenderer:
   m_ObjectHideFlags: 0
